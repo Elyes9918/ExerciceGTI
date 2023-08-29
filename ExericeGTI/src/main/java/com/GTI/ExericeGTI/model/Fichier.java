@@ -20,12 +20,12 @@ public class Fichier {
     @GeneratedValue
     private Integer id;
     private String nomFichier;
-    private Integer tailleFichier;
-    private Integer type;
+    private String type;
+    private String filePath;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_demandeCredit", nullable = false)
+    @JoinColumn(name = "id_demandeCredit",nullable = false)
     private DemandeCredit demandeCredit;
 
 }

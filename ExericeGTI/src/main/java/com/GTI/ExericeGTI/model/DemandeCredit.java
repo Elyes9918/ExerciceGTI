@@ -24,7 +24,7 @@ public class DemandeCredit {
     private Integer nDemande;
     private Integer idDemande;
     private Boolean etat;
-    private Date dateDemande;
+    private String dateDemande;
     private String observation;
     private Integer type;
     private Integer unite;

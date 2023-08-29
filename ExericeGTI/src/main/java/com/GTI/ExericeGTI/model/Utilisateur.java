@@ -1,12 +1,14 @@
 package com.GTI.ExericeGTI.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -24,6 +26,7 @@ public class Utilisateur {
     private String nom;
     private String prenom;
     private String situationF;
+    private String dateNaissance;
     private Integer role;
 
     @OneToMany(mappedBy = "utilisateur", fetch = FetchType.LAZY,

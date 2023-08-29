@@ -1,5 +1,6 @@
 package com.GTI.ExericeGTI.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,7 @@ public class Compte {
     @GeneratedValue
     private Integer nCompte;
     private Boolean enDevise;
-    private Date dateOuverture;
-    private Date dateNaissance;
+    private String dateOuverture;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
