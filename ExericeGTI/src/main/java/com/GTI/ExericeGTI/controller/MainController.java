@@ -57,6 +57,19 @@ public class MainController {
 
     @PostMapping("/fichier")
     public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("file") MultipartFile file) throws IOException {
+
+        // Check file size
+        if (file.getSize() > 4 * 1024 * 1024) { // 4MB
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("File size exceeds 4MB");
+        }
+
+        // Check file type
+        if (!file.getContentType().equals(MediaType.APPLICATION_PDF_VALUE)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Only PDF files are allowed");
+        }
+
         String uploadedfile = fichierService.uploadFile(file,52);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadedfile);
