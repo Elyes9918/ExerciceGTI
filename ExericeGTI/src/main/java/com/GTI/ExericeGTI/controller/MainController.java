@@ -57,7 +57,7 @@ public class MainController {
 
     @PostMapping("/fichier")
     public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("file") MultipartFile file) throws IOException {
-        String uploadedfile = fichierService.uploadFile(file,1);
+        String uploadedfile = fichierService.uploadFile(file,52);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadedfile);
     }

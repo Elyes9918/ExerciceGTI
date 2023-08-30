@@ -65,7 +65,7 @@ public class FichierService {
         }
         return "";
     }
-
+    
     // Helper method to get MediaType based on file extension
     public MediaType getMediaTypeForExtension(String extension) {
         switch (extension.toLowerCase()) {
