@@ -10,7 +10,7 @@ export class AuthenticiationService {
 
   SESSION_KEY='ncin'
 
-  private apiUrl = '/api/api/v1';
+  private apiUrl = '/api/v1';
 
   constructor(private http:HttpClient) { }
 

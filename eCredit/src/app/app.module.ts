@@ -18,6 +18,18 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { ClientPageComponent } from './client-page/client-page.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
+import { TableModule } from 'primeng/table';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { RippleModule } from 'primeng/ripple';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ToastModule } from 'primeng/toast';
+import { SliderModule } from 'primeng/slider';
+import { RatingModule } from 'primeng/rating';
+import { MessageService } from 'primeng/api'
+import { ConfirmationService } from 'primeng/api'
+
 
 @NgModule({
   declarations: [
@@ -38,9 +50,20 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
     CheckboxModule,
     InputTextModule,
     FormsModule,
-    PasswordModule
+    PasswordModule,
+    CommonModule,
+		FormsModule,
+		TableModule,
+		RatingModule,
+		SliderModule,
+		ToggleButtonModule,
+		RippleModule,
+		MultiSelectModule,
+		DropdownModule,
+		ProgressBarModule,
+		ToastModule
   ],
-  providers: [],
+  providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

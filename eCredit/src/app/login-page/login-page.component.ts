@@ -36,6 +36,10 @@ export class LoginPageComponent implements OnInit {
 
   doLogin(){
 
+    console.log(this.ncin);
+    console.log(this.password);
+
+
     (this.authService.authenticate(this.ncin,this.password)).subscribe(
       data=>{
         if(!this.signInAsAdmin){

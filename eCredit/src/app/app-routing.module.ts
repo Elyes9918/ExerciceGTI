@@ -20,7 +20,7 @@ const routes: Routes = [
   {path:'**',redirectTo:''},
   {path:'',redirectTo:'/login',pathMatch:'full'}
 
-
+  
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
