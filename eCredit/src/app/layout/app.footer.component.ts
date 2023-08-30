@@ -7,4 +7,12 @@ import { LayoutService } from "./service/app.layout.service";
 })
 export class AppFooterComponent {
     constructor(public layoutService: LayoutService) { }
+
+    toEnglish(){
+        console.log("English");
+    }
+
+    toFrench(){
+        console.log("French");
+    }
 }

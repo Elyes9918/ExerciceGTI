@@ -1,3 +1,14 @@
 <div class="layout-footer">
-    <span>Elyes Bouallegue</span>
+    <div class="language-container">
+        <div class="language">
+          <img src="assets/layout/images/Uk.png" [style.width.px]="15" [style.height.px]="10" alt="English" (click)="toEnglish()" >
+          <span [ngStyle]="{ 'margin-left': '3px' }" (click)="toEnglish()">English</span>
+          
+          <span [ngStyle]="{ 'margin-left': '10px','margin-right': '10px' }">|</span>
+          <img src="assets/layout/images/Fr.png" [style.width.px]="15" [style.height.px]="10" alt="French"
+          (click)="toFrench()">
+          <span [ngStyle]="{ 'margin-left': '3px' }" (click)="toFrench()">French</span>
+          
+        </div>
+      </div>
 </div>
