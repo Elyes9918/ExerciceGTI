@@ -28,7 +28,19 @@ import { ToastModule } from 'primeng/toast';
 import { SliderModule } from 'primeng/slider';
 import { RatingModule } from 'primeng/rating';
 import { MessageService } from 'primeng/api'
-import { ConfirmationService } from 'primeng/api'
+import { ConfirmationService } from 'primeng/api';
+import { InfoClientStepComponent } from './client-page/info-client-step/info-client-step.component';
+import { DossierCreditStepComponent } from './client-page/dossier-credit-step/dossier-credit-step.component';
+import { GarantiesPorposeStepComponent } from './client-page/garanties-porpose-step/garanties-porpose-step.component';
+import { ObservationStepComponent } from './client-page/observation-step/observation-step.component';
+import { ConfirmationStepComponent } from './client-page/confirmation-step/confirmation-step.component'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StepsModule } from 'primeng/steps';
+import { DocumentsStepComponent } from './client-page/documents-step/documents-step.component';
+import { CardModule } from 'primeng/card';
+
+
+
 
 
 @NgModule({
@@ -36,7 +48,13 @@ import { ConfirmationService } from 'primeng/api'
     AppComponent,
     LoginPageComponent,
     ClientPageComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    InfoClientStepComponent,
+    DossierCreditStepComponent,
+    GarantiesPorposeStepComponent,
+    ObservationStepComponent,
+    ConfirmationStepComponent,
+    DocumentsStepComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +79,11 @@ import { ConfirmationService } from 'primeng/api'
 		MultiSelectModule,
 		DropdownModule,
 		ProgressBarModule,
-		ToastModule
+		ToastModule,
+    BrowserAnimationsModule,
+    StepsModule,
+    CardModule
+    
   ],
   providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]
