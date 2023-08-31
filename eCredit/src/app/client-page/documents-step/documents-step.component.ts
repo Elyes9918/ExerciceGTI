@@ -11,11 +11,27 @@ export class DocumentsStepComponent implements OnInit {
   cardName!:String;
   cardNumber!:String;
 
+  uploadedFiles: any[] = [];
+
+
 
   constructor( private router: Router) { }
 
   ngOnInit() { 
   }
+
+
+    onUpload(event: any) {
+        for (const file of event.files) {
+            this.uploadedFiles.push(file);
+        }
+        
+    }
+
+    onBasicUpload() {
+        
+    }
+ 
 
   nextPage() {
     this.router.navigate(['main/client/observation']);

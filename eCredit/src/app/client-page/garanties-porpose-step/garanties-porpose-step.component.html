@@ -8,29 +8,57 @@
         </ng-template>
         <ng-template pTemplate="content">
             <div class="p-fluid formgrid grid">
-                <div class="field col-4">
-                    <label for="class">Card Holder Name</label>
-                    <input type="text" required pInputText [(ngModel)]="cardName" name="cardName"> 
-                </div>
-                <div class="field col-4">
-                    <label for="class">Card Holder Name</label>
-                    <input type="text" required pInputText [(ngModel)]="cardName" name="cardName"> 
-                </div>
-                <div class="field col-6">
-                    <label for="class">Card Holder Name</label>
-                    <input type="text" required pInputText [(ngModel)]="cardName" name="cardName"> 
-                </div>
-                <div class="field col-6">
-                    <label for="class">Card Holder Name</label>
-                    <input type="text" required pInputText [(ngModel)]="cardName" name="cardName"> 
-                </div>
-               
+            
+                <div class="card m-4 d-fluid " style="width: 100%;">
+                    <h5 class="card-header">Garanties proposées</h5>
+                    <div class="card-body">
+                      <form [formGroup]="userForm">
+                        <div formArrayName="usersDetails">
+                          <p-table [value]="usersDetails.controls" [(selection)]="selectedUsers">
+                            <ng-template pTemplate="header" >
+                              <tr>
+                                <th >Row</th>
+                                <th >Nature</th>
+                                <th >Type</th>
+                                <th >Valeur</th>
+                                <th>Devise</th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-controls let-i="rowIndex">
+                              <tr [formGroupName]="i">
+                                <td>
+                                  <p-tableCheckbox [value]="i+1"></p-tableCheckbox>
+                                </td>
+                                <td><input type="text" formControlName="nature" pInputText class="form-control" /></td>
+                                <td> <p-dropdown appendTo="body" [options]="genderOptions"  formControlName="type"></p-dropdown></td>
+                                <td><input type="text" formControlName="valeur" pInputText class="form-control" /></td>
+                                <td><p-dropdown appendTo="body" [options]="genderOptions" formControlName="devise"></p-dropdown></td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                        </div>
+                      </form>
+                      <div style="margin-top: 20px;">
+                        <div style="margin-top: 20px; display: flex; flex-wrap: nowrap;">
+                            <button   pButton pRipple (click)="onAdd()" style="width: 8.9rem; margin-right: 10px;">Add New Row</button>
+
+                            <button pButton pRipple [disabled]="usersDetails.controls.length === 1" (click)="onDelete()" style="width: 12rem; margin-right: 10px;">Delete Selected Row</button>
+
+                            <button pButton pRipple [disabled]="userForm.invalid" (click)="onSubmit()" style="width: 6.25rem">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p-toast [style]="{marginTop: '80px'}"></p-toast>
+                  <div>
+                  </div>
+
                 
             </div>
         </ng-template>
         <ng-template pTemplate="footer">
             <div class="grid grid-nogutter justify-content-end">
-                <p-button label="Back" (onClick)="prevPage()" icon="pi pi-angle-left" [style]="{ 'margin-right': '1266px' }"></p-button>
+                <p-button label="Back" (onClick)="prevPage()" icon="pi pi-angle-left" [style]="{ 'margin-right': '30px' }"></p-button>
                 <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
             </div>
         </ng-template>

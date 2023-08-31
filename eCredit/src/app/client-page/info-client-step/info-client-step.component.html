@@ -20,9 +20,25 @@
                     <label for="class">Prénom</label>
                     <input type="text" required pInputText [(ngModel)]="cardName" name="cardName"> 
                 </div>
+                <div class="field col-12 md:col-5">
+                    <label for="class">N° du compte</label>
+                    <p-dropdown inputId="class" [(ngModel)]="ncompteVal" [options]="comptes" (onChange)="setCompteNumber($event)" optionLabel="name" placeholder="Choisir"></p-dropdown>
+                </div>
 
-                
+                <div class="field col-12 md:col-1">           
+                    <p for="accountType1">Devise</p>
+                    <p-checkbox name="accountType2" value="En Devise" [(ngModel)]="EnDevise" id="accountType1"></p-checkbox>
+                </div>
 
+                <div class="field col-12 md:col-6">           
+                    <label for="accountType1">Date d'ouverture compte</label>
+                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+                </div>
+
+                <div class="field col-12 md:col-6">           
+                    <label for="accountType1">Date de naissance</label>
+                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+                </div>
 
                 <div class="field col-6">
                     <label for="class">Situation Familiale</label>

@@ -38,6 +38,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StepsModule } from 'primeng/steps';
 import { DocumentsStepComponent } from './client-page/documents-step/documents-step.component';
 import { CardModule } from 'primeng/card';
+import { CalendarModule } from 'primeng/calendar';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { FileUploadModule } from 'primeng/fileupload';
+
 
 
 
@@ -82,7 +86,11 @@ import { CardModule } from 'primeng/card';
 		ToastModule,
     BrowserAnimationsModule,
     StepsModule,
-    CardModule
+    CardModule,
+    CalendarModule,
+    InputNumberModule,
+    FileUploadModule
+
     
   ],
   providers: [MessageService, ConfirmationService],

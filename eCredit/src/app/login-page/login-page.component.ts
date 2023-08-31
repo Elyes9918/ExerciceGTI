@@ -43,7 +43,7 @@ export class LoginPageComponent implements OnInit {
     (this.authService.authenticate(this.ncin,this.password)).subscribe(
       data=>{
         if(!this.signInAsAdmin){
-          this.router.navigate(['/main/client'])
+          this.router.navigate(['/main/client/info'])
         }else{
           this.router.navigate(['/main/admin'])
         }

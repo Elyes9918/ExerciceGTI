@@ -11,10 +11,27 @@ export class DossierCreditStepComponent implements OnInit {
   cardName!:String;
   cardNumber!:String;
 
+  comptes!: any[];
+
+  ncompteVal!:String;
+
+
 
   constructor( private router: Router) { }
 
   ngOnInit() { 
+    this.comptes = [
+      {name: '13232', id: '1'},
+      {name: '21672', id: '2'},
+      {name: '42844', id: '3'}
+  ];    
+  }
+
+  setCompteNumber(event : any) {
+    if (event.value) {
+      this.ncompteVal = event.value; 
+    }
+    console.log(this.ncompteVal)
   }
 
   nextPage() {
