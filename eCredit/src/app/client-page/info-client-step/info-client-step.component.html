@@ -10,24 +10,24 @@
             <div class="p-fluid formgrid grid">
                 <div class="field col-4">
                     <label for="class">N° CIN</label>
-                    <input type="text" required pInputText [(ngModel)]="cardName" name="cardName"> 
+                    <input type="text" required pInputText [(ngModel)]="ncin" name="ncin"> 
                 </div>
                 <div class="field col-4">
                     <label for="class">Nom</label>
-                    <input type="text" required pInputText [(ngModel)]="cardName" name="cardName"> 
+                    <input type="text" required pInputText [(ngModel)]="nom" name="nom"> 
                 </div>
                 <div class="field col-4">
                     <label for="class">Prénom</label>
-                    <input type="text" required pInputText [(ngModel)]="cardName" name="cardName"> 
+                    <input type="text" required pInputText [(ngModel)]="prenom" name="prenom"> 
                 </div>
                 <div class="field col-12 md:col-5">
                     <label for="class">N° du compte</label>
-                    <p-dropdown inputId="class" [(ngModel)]="ncompteVal" [options]="comptes" (onChange)="setCompteNumber($event)" optionLabel="name" placeholder="Choisir"></p-dropdown>
+                    <p-dropdown inputId="class" [(ngModel)]="ncompte" [options]="comptes" (onChange)="setCompteNumber($event)" optionLabel="value" placeholder="Choisir"></p-dropdown>
                 </div>
 
                 <div class="field col-12 md:col-1">           
                     <p for="accountType1">Devise</p>
-                    <p-checkbox name="accountType2" value="En Devise" [(ngModel)]="EnDevise" id="accountType1"></p-checkbox>
+                    <p-checkbox name="accountType2" value="En Devise" [(ngModel)]="devise" id="accountType1"></p-checkbox>
                 </div>
 
                 <div class="field col-12 md:col-6">           
@@ -42,7 +42,7 @@
 
                 <div class="field col-6">
                     <label for="class">Situation Familiale</label>
-                    <input type="text" required pInputText [(ngModel)]="cardName" name="cardName"> 
+                    <input type="text" required pInputText [(ngModel)]="sfamiliale" name="cardName"> 
                 </div>
                
                 

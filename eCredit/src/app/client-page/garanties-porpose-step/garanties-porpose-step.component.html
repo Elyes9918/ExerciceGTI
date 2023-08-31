@@ -13,8 +13,8 @@
                     <h5 class="card-header">Garanties proposées</h5>
                     <div class="card-body">
                       <form [formGroup]="userForm">
-                        <div formArrayName="usersDetails">
-                          <p-table [value]="usersDetails.controls" [(selection)]="selectedUsers">
+                        <div formArrayName="garantiesDetails">
+                          <p-table [value]="garantiesDetails.controls" [(selection)]="selectedGaranties">
                             <ng-template pTemplate="header" >
                               <tr>
                                 <th >Row</th>
@@ -30,9 +30,9 @@
                                   <p-tableCheckbox [value]="i+1"></p-tableCheckbox>
                                 </td>
                                 <td><input type="text" formControlName="nature" pInputText class="form-control" /></td>
-                                <td> <p-dropdown appendTo="body" [options]="genderOptions"  formControlName="type"></p-dropdown></td>
+                                <td> <p-dropdown appendTo="body" [options]="typeGaranties"  formControlName="type"></p-dropdown></td>
                                 <td><input type="text" formControlName="valeur" pInputText class="form-control" /></td>
-                                <td><p-dropdown appendTo="body" [options]="genderOptions" formControlName="devise"></p-dropdown></td>
+                                <td><p-dropdown appendTo="body" [options]="enDevise" formControlName="devise"></p-dropdown></td>
                               </tr>
                             </ng-template>
                           </p-table>
@@ -42,7 +42,7 @@
                         <div style="margin-top: 20px; display: flex; flex-wrap: nowrap;">
                             <button   pButton pRipple (click)="onAdd()" style="width: 8.9rem; margin-right: 10px;">Add New Row</button>
 
-                            <button pButton pRipple [disabled]="usersDetails.controls.length === 1" (click)="onDelete()" style="width: 12rem; margin-right: 10px;">Delete Selected Row</button>
+                            <button pButton pRipple [disabled]="garantiesDetails.controls.length === 1" (click)="onDelete()" style="width: 12rem; margin-right: 10px;">Delete Selected Row</button>
 
                             <button pButton pRipple [disabled]="userForm.invalid" (click)="onSubmit()" style="width: 6.25rem">Submit</button>
                         </div>

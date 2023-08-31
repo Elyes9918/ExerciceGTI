@@ -11,22 +11,22 @@
      
                 <div class="field col-12 md:col-6">
                     <label for="class">Type crédit</label>
-                    <p-dropdown inputId="class" [(ngModel)]="ncompteVal" [options]="comptes" (onChange)="setCompteNumber($event)" optionLabel="name" placeholder="Choisir"></p-dropdown>
+                    <p-dropdown inputId="class" [(ngModel)]="credit" [options]="typeCredit" (onChange)="setCreditType($event)" optionLabel="label" placeholder="Choisir"></p-dropdown>
                 </div>
 
                 <div class="field col-6">
                     <label for="class">Montant</label>
-                    <p-inputNumber mode="decimal" [(ngModel)]="cardName" [showButtons]="true" [min]="0" [max]="10000000000"></p-inputNumber>
+                    <p-inputNumber mode="decimal" [(ngModel)]="montant" [showButtons]="true" [min]="0" [max]="10000000000"></p-inputNumber>
                 </div>
                 
                 <div class="field col-12 md:col-6">
                     <label for="class">Unité</label>
-                    <p-dropdown inputId="class" [(ngModel)]="ncompteVal" [options]="comptes" (onChange)="setCompteNumber($event)" optionLabel="name" placeholder="Choisir"></p-dropdown>
+                    <p-dropdown inputId="class" [(ngModel)]="unite" [options]="unites" (onChange)="setUnite($event)" optionLabel="label" placeholder="Choisir"></p-dropdown>
                 </div>
 
                 <div class="field col-6">
                     <label for="class">Nbre échéance</label>
-                    <p-inputNumber mode="decimal" [(ngModel)]="cardName" [showButtons]="true" [min]="0" [max]="10000000000"></p-inputNumber>
+                    <p-inputNumber mode="decimal" [(ngModel)]="nbecheance" [showButtons]="true" [min]="0" [max]="10000000000"></p-inputNumber>
                 </div>
 
                 

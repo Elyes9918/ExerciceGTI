@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { GlobalVariables } from 'src/app/globalVariable';
 
 @Component({
   selector: 'app-dossier-credit-step',
@@ -8,30 +9,32 @@ import { Router } from '@angular/router';
 })
 export class DossierCreditStepComponent implements OnInit {
 
-  cardName!:String;
-  cardNumber!:String;
+  typeCredit!: any[];
+  unites!: any[];
 
-  comptes!: any[];
-
-  ncompteVal!:String;
-
-
+  credit!:String;
+  montant!:String;
+  unite!:String;
+  nbecheance!:String;
 
   constructor( private router: Router) { }
 
   ngOnInit() { 
-    this.comptes = [
-      {name: '13232', id: '1'},
-      {name: '21672', id: '2'},
-      {name: '42844', id: '3'}
-  ];    
+    this.typeCredit = GlobalVariables.typeCredit;
+    this.unites = GlobalVariables.unites;
+
   }
 
-  setCompteNumber(event : any) {
+  setCreditType(event : any) {
     if (event.value) {
-      this.ncompteVal = event.value; 
+      this.credit = event.value; 
     }
-    console.log(this.ncompteVal)
+  }
+
+  setUnite(event : any) {
+    if (event.value) {
+      this.unite = event.value; 
+    }
   }
 
   nextPage() {

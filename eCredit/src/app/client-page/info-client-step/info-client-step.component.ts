@@ -9,32 +9,32 @@ import { Router } from '@angular/router';
 })
 export class InfoClientStepComponent implements OnInit {
 
-  cardName!:String;
-  cardNumber!:String;
+
+  ncin!:String;
+  nom!:String;
+  prenom!:String;
+  ncompte!:String;
+  dateouv!:String;
+  datenaiss!:String;
+  sfamiliale!:String;
+  devise!:boolean;
 
   comptes!: any[];
-
-  ncompteVal!:String;
-  EnDevise!:Boolean;
-
-
-
 
   constructor( private router: Router) { }
 
   ngOnInit() { 
     this.comptes = [
-      {name: '13232', id: '1'},
-      {name: '21672', id: '2'},
-      {name: '42844', id: '3'}
+      {value: '13232'},
+      {value: '21672'},
+      {value: '42844'}
   ];    
   }
 
   setCompteNumber(event : any) {
     if (event.value) {
-      this.ncompteVal = event.value; 
+      this.ncompte = event.value; 
     }
-    console.log(this.ncompteVal)
   }
   
 

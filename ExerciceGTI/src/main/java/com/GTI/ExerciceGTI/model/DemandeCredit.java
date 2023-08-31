@@ -23,7 +23,7 @@ public class DemandeCredit {
     @GeneratedValue
     private Integer nDemande;
     private Integer idDemande;
-    private Boolean etat;
+    private Integer etat;
     private String dateDemande;
     private String observation;
     private Integer type;

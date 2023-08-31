@@ -8,6 +8,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { MessageService, SelectItem } from "primeng/api";
+import { GlobalVariables } from 'src/app/globalVariable';
 
 @Component({
   selector: 'app-garanties-porpose-step',
@@ -16,45 +17,51 @@ import { MessageService, SelectItem } from "primeng/api";
 })
 export class GarantiesPorposeStepComponent implements OnInit {
 
-  genderOptions: SelectItem[] = [
-    { label: "Choisir", value: null },
-    { label: "Type 1", value: "0" },
-    { label: "Type 2", value: "1" },
+  enDevise: SelectItem[] = [
+    { label: "Oui", value: "0" },
+    { label: "Non", value: "1" },
+  ];
+
+  typeGaranties!: any[];
+
+  initialValues = [
+    { nature: "", type: "0", valeur: "0", devise: false },
   ];
 
   protected data : any;
 
-  selectedUsers: any = [];
+
+  selectedGaranties: any = [];
 
   userForm!: FormGroup;
 
   valSwitch!:Boolean
 
-  values = [
-    { nature: "", type: "0", valeur: "0", devise: false },
-  ];
+ 
 
-  constructor( private router: Router,private formBuilder: FormBuilder,
-    private messageService: MessageService) { }
+  constructor( private router: Router,private formBuilder: FormBuilder, private messageService: MessageService) { }
 
-  get usersDetails(): FormArray {
-    return this.userForm.get("usersDetails") as FormArray;
+  get garantiesDetails(): FormArray {
+    return this.userForm.get("garantiesDetails") as FormArray;
   }
 
   ngOnInit() { 
+
+    this.typeGaranties = GlobalVariables.typeGaranties;
+
     this.userForm = this.formBuilder.group({
-      usersDetails: this.formBuilder.array([]),
+      garantiesDetails: this.formBuilder.array([]),
     });
     this.populateData();
   }
 
   onAdd() {
     this.userForm.markAllAsTouched();
-    this.usersDetails.push(this.addControls());
+    this.garantiesDetails.push(this.addControls());
   }
 
   onDelete() {
-    if (this.selectedUsers.length < 1) {
+    if (this.selectedGaranties.length < 1) {
       this.messageService.add({
         severity: "warn",
         summary: "Info",
@@ -62,9 +69,9 @@ export class GarantiesPorposeStepComponent implements OnInit {
       });
       return;
     }
-    console.log(this.selectedUsers);
-    for (var i = this.selectedUsers.length - 1; i >= 0; i--) {
-      this.usersDetails.controls.splice(this.selectedUsers[i] - 1, 1);
+    console.log(this.selectedGaranties);
+    for (var i = this.selectedGaranties.length - 1; i >= 0; i--) {
+      this.garantiesDetails.controls.splice(this.selectedGaranties[i] - 1, 1);
     }
     this.messageService.add({
       severity: "success",
@@ -72,14 +79,14 @@ export class GarantiesPorposeStepComponent implements OnInit {
       detail: "Selected records deleted!",
     });
  
-    this.selectedUsers = [];
+    this.selectedGaranties = [];
   }
  
   /**
    * click on  submit button
    */
   onSubmit() {
-    this.data = JSON.stringify(this.usersDetails.value);
+    this.data = JSON.stringify(this.garantiesDetails.value);
   }
  
   /**
@@ -105,9 +112,9 @@ export class GarantiesPorposeStepComponent implements OnInit {
    * Populate data into Form
    */
   private populateData() {
-    this.values.forEach((data, index) => {
+    this.initialValues.forEach((data, index) => {
       this.onAdd();
-      this.usersDetails.controls[index].setValue(data);
+      this.garantiesDetails.controls[index].setValue(data);
     });
   }
 

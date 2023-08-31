@@ -2,7 +2,8 @@
 <div class="col-12">
     <div class="card">
         <h5>Consultation Crédits</h5>
-        <p-table #dt1 [value]="customers1" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll">
+        <p-table #dt1 [value]="demandeCredits" dataKey="id" [rows]="8" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" 
+            [paginator]="true"  responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 
             </ng-template>
@@ -11,83 +12,74 @@
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             N°
-                            <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             ID Demande
-                            <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Nom Client
-                            <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Type crédit
-                            <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
                         </div>
                     </th>
                     
             
                     <th style="min-width: 10rem">
                         <div class="flex justify-content-between align-items-center">
-                            Date Demande
-                            <p-columnFilter type="date" field="date" display="menu" placeholder="mm/dd/yyyy"></p-columnFilter>
+                            Date demande
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Status
-                            <p-columnFilter field="status" matchMode="equals" display="menu">
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [style]="{'min-width': '12rem'}" >
-                                        <ng-template let-option pTemplate="item">
-                                            <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
-                                        </ng-template>
-                                    </p-dropdown>
-                                </ng-template>
-                            </p-columnFilter>
+                            Etat  
                         </div>
                     </th>
                     
                     <th style="min-width: 8rem">
-                        <div class="flex justify-content-between align-items-center">
-                            Verified
-                            <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
+                        <div class="text-center" >
+                            Actions
                         </div>
                     </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-customer>
+            <ng-template pTemplate="body" let-demandeCredit>
                 <tr>
                     <td>
-                        {{customer.name}}
+                        {{demandeCredit.numDemande}}
                     </td>
                     <td>
-                        <img src="assets/demo/images/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" width="30">
-                        <span class="image-text ml-2">{{customer.country.name}}</span>
+                        {{demandeCredit.idDemande}}
+
                     </td>
                     <td>
-                        <img [alt]="customer.representative.name" src="assets/demo/images/avatar/{{customer.representative.image}}" width="32" style="vertical-align: middle"/>
-                        <span class="image-text ml-2">{{customer.representative.name}}</span>
+                        {{demandeCredit.nomClient}}
+
                     </td>
                     <td>
-                        {{customer.date | date: 'MM/dd/yyyy'}}
+                        {{ getTypeCreditLabel(demandeCredit.typeCredit) }}
                     </td>
                     <td>
-                        {{customer.balance | currency:'USD':'symbol'}}
+                        {{demandeCredit.dateDemande}}
                     </td>
                     <td>
-                        <span [class]="'customer-badge status-' + customer.status">{{customer.status}}</span>
+                        {{ getStatusLabel(demandeCredit.etat) }}
                     </td>
                    
                     <td class="text-center">
-                        <i class="pi" [ngClass]="{'true-icon pi-check-circle text-green-500': customer.verified, 'false-icon pi-times-circle text-pink-500': !customer.verified}"></i>
+
+                        <button *ngIf="demandeCredit.etat===0 " pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded" style="margin-right: 1rem;" (click)="Verify(demandeCredit)"></button>
+                        <button *ngIf="demandeCredit.etat===2" pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded" (click)="Verify(demandeCredit)"></button>
+
+                        <button *ngIf="demandeCredit.etat===0 "pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="Denied(demandeCredit)"></button>
+                        <button *ngIf="demandeCredit.etat===1" pButton pRipple type="button" icon="pi pi-eye" class="p-button-rounded p-button-secondary" (click)="ViewPDF()"></button>
+
                     </td>
                 </tr>
             </ng-template>

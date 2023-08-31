@@ -47,12 +47,7 @@ public class MainController {
     }
 
 
-    @PostMapping("/demandeCredit")
-    public ResponseEntity<ApiResponse> AjouterDemandeCredit(@RequestBody DemandeCreditRequest request){
-        demandeCreditService.AjouterDemandeCredit(request);
-        return new ResponseEntity<ApiResponse>(
-                new ApiResponse(true,"Demande credit has been added succesfully"), HttpStatus.CREATED);
-    }
+
 
 
     @PostMapping("/fichier")
@@ -70,7 +65,7 @@ public class MainController {
                     .body("Only PDF files are allowed");
         }
 
-        String uploadedfile = fichierService.uploadFile(file,52);
+        String uploadedfile = fichierService.uploadFile(file,1);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadedfile);
     }

@@ -8,9 +8,7 @@ import { Router } from '@angular/router';
 })
 export class ObservationStepComponent implements OnInit {
 
-  cardName!:String;
-  cardNumber!:String;
-
+  observation!:String;
 
   constructor( private router: Router) { }
 

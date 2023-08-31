@@ -34,8 +34,6 @@ export class AuthenticiationService {
     );
   }
 
-
-
   isUserLoggedin(){
     let user = sessionStorage.getItem('ncin');
     return !(user===null);
