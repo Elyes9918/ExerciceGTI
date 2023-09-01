@@ -10,44 +10,47 @@
             <div class="p-fluid formgrid grid">
                 <div class="field col-11">
                     <h6 for="class">Bulletin de paie*</h6>
-                    <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
-                          [multiple]="true"  [maxFileSize]="4000000">
+
+                    <p-fileUpload  name="file[]" [customUpload]="true" (uploadHandler)="onUploadBP($event)"
+                          [multiple]="false"  [maxFileSize]="4000000" >
                         <ng-template pTemplate="content">
                             <ul *ngIf="uploadedFiles.length">
                                 <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
                             </ul>
                         </ng-template>
                     </p-fileUpload>
+
                 </div>
 
                 <div class="field col-1">
                     <h6 for="class" [ngStyle]="{'padding-left':'25px'}">Status</h6>
                     <div [ngStyle]="{'padding-left':'2rem','padding-top': '4rem'}">
-                        <!-- <button pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded"></button> -->
-                         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"></button>
+                         <button pButton pRipple type="button" [icon]="bulletainPaieStatus ? 'pi pi-check' : 'pi pi-times'" 
+                          [ngClass]="bulletainPaieStatus ? 'p-button-rounded' : 'p-button-rounded  p-button-danger'" ></button>
                     </div>
 
-                   
                 </div>
 
                 <div class="field col-11">
                     <h6 for="class">CIN*</h6>
-                    <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
-                          [multiple]="true"  [maxFileSize]="4000000">
+
+                    <p-fileUpload  name="file[]" [customUpload]="true" (uploadHandler)="onUploadCin($event)"
+                          [multiple]="false"  [maxFileSize]="4000000" >
                         <ng-template pTemplate="content">
                             <ul *ngIf="uploadedFiles.length">
                                 <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
                             </ul>
                         </ng-template>
                     </p-fileUpload>
+
                 </div>
 
                 
                 <div class="field col-1">
                     <h6 for="class" [ngStyle]="{'padding-left':'25px'}">Status</h6>
                     <div [ngStyle]="{'padding-left':'25px','padding-top': '50px'}">
-                        <button pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded"></button>
-                         <!-- <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"></button> -->
+                         <button pButton pRipple type="button" [icon]="cinStatus ? 'pi pi-check' : 'pi pi-times'"                                                   
+                         [ngClass]="cinStatus ? 'p-button-rounded' : 'p-button-rounded  p-button-danger'" ></button>
                     </div>
                     
                    

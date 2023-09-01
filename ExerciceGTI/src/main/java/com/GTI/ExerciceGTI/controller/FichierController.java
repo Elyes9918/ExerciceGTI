@@ -31,8 +31,6 @@ public class FichierController {
                                                      @RequestParam("idDemande") String idDemande,
                                                      @RequestParam("nature") String nature) throws IOException {
 
-
-
         // Check file size
         if (file.getSize() > 4 * 1024 * 1024) { // 4MB
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -40,10 +38,10 @@ public class FichierController {
         }
 
         // Check file type
-        if (!file.getContentType().equals(MediaType.APPLICATION_PDF_VALUE)) {
+       /* if (!file.getContentType().equals(MediaType.APPLICATION_PDF_VALUE)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Only PDF files are allowed");
-        }
+        }*/
 
         String uploadedfile = fichierService.uploadFile(file,Integer.parseInt(idDemande),Integer.parseInt(nature));
         return ResponseEntity.status(HttpStatus.OK)
