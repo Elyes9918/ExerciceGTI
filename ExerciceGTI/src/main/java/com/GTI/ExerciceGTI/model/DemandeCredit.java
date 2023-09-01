@@ -38,9 +38,5 @@ public class DemandeCredit {
 
     @OneToMany(mappedBy = "demandeCredit", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    private List<Fichier> fichiers;
-
-    @OneToMany(mappedBy = "demandeCredit", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
     private List<Garantie> garanties;
 }

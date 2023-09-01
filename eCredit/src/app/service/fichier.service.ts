@@ -13,11 +13,11 @@ export class FichierService {
   constructor(private http:HttpClient) { }
 
 
-  upload(file: File,idDemande:string,nature:string): Observable<HttpEvent<any>> {
+  upload(file: File,idUser:string,nature:string): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
 
     formData.append('file', file);
-    formData.append('idDemande',idDemande);
+    formData.append('idUser',idUser);
     formData.append('nature',nature);
 
 

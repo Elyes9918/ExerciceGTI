@@ -14,4 +14,5 @@ public class FichierResponse {
     private String url;
     private String type;
     private Integer nature;
+    private Integer idUser;
 }

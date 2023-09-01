@@ -10,6 +10,7 @@ import com.GTI.ExerciceGTI.model.Fichier;
 import com.GTI.ExerciceGTI.model.Utilisateur;
 import com.GTI.ExerciceGTI.repos.DemandeCreditRepository;
 import com.GTI.ExerciceGTI.repos.FichierRepository;
+import com.GTI.ExerciceGTI.repos.UtilisateurRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,22 +31,24 @@ import java.util.Optional;
 public class FichierService {
 
     private final FichierRepository fichierRepository;
-    private final DemandeCreditRepository demandeCreditRepository;
+    private final UtilisateurRepository utilisateurRepository;
 
 
-    private final String path_fichier="/Users/BOUALLEGUE.Elyes/Desktop/Files/";
+   // private final String path_fichier="/Users/BOUALLEGUE.Elyes/Desktop/Files/";
+   private final String path_fichier="/Users/Elyes/OneDrive/Desktop/Files/";
 
-    public String uploadFile(MultipartFile file,Integer idDemande,Integer nature) throws IOException {
+
+    public String uploadFile(MultipartFile file,Integer nCin,Integer nature) throws IOException {
         String fileName = file.getOriginalFilename();
         Path filePath = Paths.get(path_fichier, fileName);
 
-        Optional<DemandeCredit> demandeCredit = demandeCreditRepository.findById(idDemande);
+        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(nCin);
 
         Fichier fileData = fichierRepository.save(Fichier.builder()
                 .nomFichier(fileName)
                 .type(file.getContentType())
                 .filePath(filePath.toString())  // Save the full path as a string
-                .demandeCredit(demandeCredit.get())
+                .utilisateur(utilisateur.get())
                 .nature(nature)
                 .build());
 
@@ -100,6 +103,7 @@ public class FichierService {
                     .url(fichier.getFilePath())
                     .type(fichier.getType())
                     .nature(fichier.getNature())
+                    .idUser(fichier.getUtilisateur().getNCin())
                     .build();
 
             fichierResponses.add(fichierResponse);

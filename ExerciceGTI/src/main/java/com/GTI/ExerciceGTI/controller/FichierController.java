@@ -28,7 +28,7 @@ public class FichierController {
 
     @PostMapping("/fichier")
     public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("file") MultipartFile file,
-                                                     @RequestParam("idDemande") String idDemande,
+                                                     @RequestParam("idUser") String idUser,
                                                      @RequestParam("nature") String nature) throws IOException {
 
         // Check file size
@@ -43,7 +43,7 @@ public class FichierController {
                     .body("Only PDF files are allowed");
         }*/
 
-        String uploadedfile = fichierService.uploadFile(file,Integer.parseInt(idDemande),Integer.parseInt(nature));
+        String uploadedfile = fichierService.uploadFile(file,Integer.parseInt(idUser),Integer.parseInt(nature));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadedfile);
     }

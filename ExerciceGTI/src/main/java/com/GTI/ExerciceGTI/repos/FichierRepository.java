@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface FichierRepository extends JpaRepository<Fichier, Integer> {
     Optional<Fichier> findByNomFichier(String fileName);
 
-     @Query("select f from Fichier f where f.demandeCredit.nDemande = :nDemande")
-     List<Fichier> findFichierByUserId(@Param("nDemande") Integer nDemande);
+     @Query("select f from Fichier f where f.utilisateur.nCin = :nCin")
+     List<Fichier> findFichierByUserId(@Param("nCin") Integer nCin);
 }

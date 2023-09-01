@@ -26,7 +26,7 @@ public class Fichier {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_demandeCredit",nullable = false)
-    private DemandeCredit demandeCredit;
+    @JoinColumn(name = "id_utilisateur",nullable = false)
+    private Utilisateur utilisateur;
 
 }

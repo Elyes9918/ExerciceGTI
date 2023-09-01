@@ -37,6 +37,10 @@ public class Utilisateur {
             cascade = CascadeType.ALL)
     private List<DemandeCredit> demandeCredits;
 
+    @OneToMany(mappedBy = "utilisateur", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Fichier> fichiers;
+
 
 
 }
