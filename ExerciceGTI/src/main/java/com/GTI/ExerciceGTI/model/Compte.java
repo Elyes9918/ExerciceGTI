@@ -21,7 +21,7 @@ public class Compte {
     @Id
     @GeneratedValue
     private Integer nCompte;
-    private Boolean enDevise;
+    private Integer devise;
     private String dateOuverture;
 
     @JsonIgnore

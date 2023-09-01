@@ -10,7 +10,10 @@ import { GlobalVariables } from 'src/app/globalVariable';
 export class DossierCreditStepComponent implements OnInit {
 
   typeCredit!: any[];
+  filteredTypeCredit: any[] = [];
+
   unites!: any[];
+  filteredUnites: any[] = [];
 
   credit!:String;
   montant!:String;
@@ -35,6 +38,30 @@ export class DossierCreditStepComponent implements OnInit {
     if (event.value) {
       this.unite = event.value; 
     }
+  }
+
+  filterTypeCredit(event: any) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.typeCredit.length; i++) {
+        const typecredit = this.typeCredit[i];
+        if (typecredit.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(typecredit);
+        }
+    }
+    this.filteredTypeCredit = filtered;
+  }
+
+  filterUnite(event: any) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.unites.length; i++) {
+        const unite = this.unites[i];
+        if (unite.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(unite);
+        }
+    }
+    this.filteredUnites = filtered;
   }
 
   nextPage() {

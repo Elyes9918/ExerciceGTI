@@ -1,5 +1,10 @@
 package com.GTI.ExerciceGTI.service;
 
+import com.GTI.ExerciceGTI.dataTransferObjects.CompteResponse;
+import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditResponse;
+import com.GTI.ExerciceGTI.dataTransferObjects.FichierRequest;
+import com.GTI.ExerciceGTI.dataTransferObjects.FichierResponse;
+import com.GTI.ExerciceGTI.model.Compte;
 import com.GTI.ExerciceGTI.model.DemandeCredit;
 import com.GTI.ExerciceGTI.model.Fichier;
 import com.GTI.ExerciceGTI.model.Utilisateur;
@@ -16,6 +21,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,17 +35,18 @@ public class FichierService {
 
     private final String path_fichier="/Users/BOUALLEGUE.Elyes/Desktop/Files/";
 
-    public String uploadFile(MultipartFile file,Integer demandeCreditId) throws IOException {
+    public String uploadFile(MultipartFile file,Integer idDemande,Integer nature) throws IOException {
         String fileName = file.getOriginalFilename();
         Path filePath = Paths.get(path_fichier, fileName);
 
-        Optional<DemandeCredit> demandeCredit = demandeCreditRepository.findById(demandeCreditId);
+        Optional<DemandeCredit> demandeCredit = demandeCreditRepository.findById(idDemande);
 
         Fichier fileData = fichierRepository.save(Fichier.builder()
                 .nomFichier(fileName)
                 .type(file.getContentType())
                 .filePath(filePath.toString())  // Save the full path as a string
                 .demandeCredit(demandeCredit.get())
+                .nature(nature)
                 .build());
 
         // Use Files.copy to save the uploaded file
@@ -83,6 +91,23 @@ public class FichierService {
     }
 
 
+    public List<FichierResponse> getFichiers(Integer id) {
+        List<Fichier> fichiers = fichierRepository.findFichierByUserId(id);
+        List<FichierResponse> fichierResponses = new ArrayList<>();
+        for(Fichier fichier : fichiers){
+            FichierResponse fichierResponse = FichierResponse.builder()
+                    .fileName(fichier.getNomFichier())
+                    .url(fichier.getFilePath())
+                    .type(fichier.getType())
+                    .nature(fichier.getNature())
+                    .build();
+
+            fichierResponses.add(fichierResponse);
+        }
+
+        return fichierResponses;
+
+    }
 
 
 

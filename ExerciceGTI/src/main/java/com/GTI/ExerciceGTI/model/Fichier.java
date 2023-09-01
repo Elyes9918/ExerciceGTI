@@ -21,6 +21,7 @@ public class Fichier {
     private Integer id;
     private String nomFichier;
     private String type;
+    private Integer nature;
     private String filePath;
 
     @JsonIgnore

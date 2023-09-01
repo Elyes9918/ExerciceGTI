@@ -10,39 +10,41 @@
             <div class="p-fluid formgrid grid">
                 <div class="field col-4">
                     <label for="class">N° CIN</label>
-                    <input type="text" required pInputText [(ngModel)]="ncin" name="ncin"> 
+                    <input type="number" required pInputText [(ngModel)]="ncin" name="ncin1" [disabled]="true" > 
                 </div>
                 <div class="field col-4">
                     <label for="class">Nom</label>
-                    <input type="text" required pInputText [(ngModel)]="nom" name="nom"> 
-                </div>
-                <div class="field col-4">
-                    <label for="class">Prénom</label>
-                    <input type="text" required pInputText [(ngModel)]="prenom" name="prenom"> 
-                </div>
-                <div class="field col-12 md:col-5">
-                    <label for="class">N° du compte</label>
-                    <p-dropdown inputId="class" [(ngModel)]="ncompte" [options]="comptes" (onChange)="setCompteNumber($event)" optionLabel="value" placeholder="Choisir"></p-dropdown>
+                    <input type="text" required pInputText [(ngModel)]="nom" name="nom" [disabled]="true"> 
                 </div>
 
-                <div class="field col-12 md:col-1">           
-                    <p for="accountType1">Devise</p>
-                    <p-checkbox name="accountType2" value="En Devise" [(ngModel)]="devise" id="accountType1"></p-checkbox>
+                <div class="field col-4">
+                    <label for="class">Prénom</label>
+                    <input type="text" required pInputText [(ngModel)]="prenom" name="prenom" [disabled]="true"> 
+                </div>
+
+                <div class="field col-12 md:col-5">
+                    <label for="class">N° du compte</label>
+                    <p-dropdown inputId="class" [(ngModel)]="compte" [options]="comptes" (onChange)="setCompteNumber($event)" optionLabel="ncompte"></p-dropdown>
+                </div>
+
+               <div class="field col-1">
+                    <label for="class">Devise</label>
+                    <input type="text" required pInputText [(ngModel)]="devise" name="prenom" [disabled]="true"> 
                 </div>
 
                 <div class="field col-12 md:col-6">           
                     <label for="accountType1">Date d'ouverture compte</label>
-                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+                    <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="dateouv"  ></p-calendar>
                 </div>
 
                 <div class="field col-12 md:col-6">           
                     <label for="accountType1">Date de naissance</label>
-                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+                    <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="datenaiss" ></p-calendar>
                 </div>
 
                 <div class="field col-6">
                     <label for="class">Situation Familiale</label>
-                    <input type="text" required pInputText [(ngModel)]="sfamiliale" name="cardName"> 
+                    <input type="text" required pInputText [(ngModel)]="sfamiliale" name="cardName" > 
                 </div>
                 
                 

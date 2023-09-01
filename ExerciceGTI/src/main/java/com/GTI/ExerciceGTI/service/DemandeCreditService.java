@@ -35,11 +35,11 @@ public class DemandeCreditService {
                 .idDemande((int) (Math.random() * (Math.pow(10, 6 - 1) * 9) + Math.pow(10, 6 - 1)))
                 .etat(0)
                 .dateDemande(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .observation(request.getObservation_d())
-                .type(request.getType_d())
-                .montant(request.getMontant_d())
-                .unite(request.getUnite_d())
-                .nbreEcheance(request.getNbreEcheance_d())
+                .observation(request.getObservation())
+                .type(request.getType())
+                .montant(request.getMontant())
+                .unite(request.getUnite())
+                .nbreEcheance(request.getNbreEcheance())
                 .utilisateur(utilisateur.get())
                 .build();
 

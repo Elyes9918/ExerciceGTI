@@ -17,15 +17,19 @@ import { GlobalVariables } from 'src/app/globalVariable';
 })
 export class GarantiesPorposeStepComponent implements OnInit {
 
-  enDevise: SelectItem[] = [
-    { label: "Oui", value: "0" },
-    { label: "Non", value: "1" },
-  ];
-
   typeGaranties!: any[];
+  filteredTypes: any[] = [];
+
+  natureGaranties!: any[];
+  filteredNatures: any[] = [];
+
+  devises!: any[];
+  filteredDevises: any[] = [];
+
+
 
   initialValues = [
-    { nature: "", type: "0", valeur: "0", devise: false },
+    { natureGarantie: "", typeGarantie: "", valeur: "", devise: "" },
   ];
 
   protected data : any;
@@ -37,7 +41,6 @@ export class GarantiesPorposeStepComponent implements OnInit {
 
   valSwitch!:Boolean
 
- 
 
   constructor( private router: Router,private formBuilder: FormBuilder, private messageService: MessageService) { }
 
@@ -48,6 +51,9 @@ export class GarantiesPorposeStepComponent implements OnInit {
   ngOnInit() { 
 
     this.typeGaranties = GlobalVariables.typeGaranties;
+    this.natureGaranties = GlobalVariables.garanties;
+    this.devises = GlobalVariables.devise;
+
 
     this.userForm = this.formBuilder.group({
       garantiesDetails: this.formBuilder.array([]),
@@ -101,8 +107,8 @@ export class GarantiesPorposeStepComponent implements OnInit {
    */
   private addControls() {
     return new FormGroup({
-      nature: new FormControl(""),
-      type: new FormControl(null),
+      natureGarantie: new FormControl(""),
+      typeGarantie: new FormControl(""),
       valeur: new FormControl(null),
       devise: new FormControl(""),
     });
@@ -118,7 +124,41 @@ export class GarantiesPorposeStepComponent implements OnInit {
     });
   }
 
+  filterType(event: any) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.typeGaranties.length; i++) {
+        const typeGarantie = this.typeGaranties[i];
+        if (typeGarantie.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(typeGarantie);
+        }
+    }
+    this.filteredTypes = filtered;
+  }
 
+  filterNature(event: any) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.natureGaranties.length; i++) {
+        const natureGarantie = this.natureGaranties[i];
+        if (natureGarantie.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(natureGarantie);
+        }
+    }
+    this.filteredNatures = filtered;
+  }
+
+  filterDevise(event: any) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.devises.length; i++) {
+        const devise = this.devises[i];
+        if (devise.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(devise);
+        }
+    }
+    this.filteredDevises = filtered;
+  }
 
 
 

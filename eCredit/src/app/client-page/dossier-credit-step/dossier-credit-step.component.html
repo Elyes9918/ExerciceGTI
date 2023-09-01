@@ -11,7 +11,9 @@
      
                 <div class="field col-12 md:col-6">
                     <label for="class">Type crédit</label>
-                    <p-dropdown inputId="class" [(ngModel)]="credit" [options]="typeCredit" (onChange)="setCreditType($event)" optionLabel="label" placeholder="Choisir"></p-dropdown>
+                    <p-autoComplete [(ngModel)]="credit" [suggestions]="filteredTypeCredit" (completeMethod)="filterTypeCredit($event)" field="label" [dropdown]="true"
+                    placeholder="Choisir" >
+                    </p-autoComplete>
                 </div>
 
                 <div class="field col-6">
@@ -21,7 +23,9 @@
                 
                 <div class="field col-12 md:col-6">
                     <label for="class">Unité</label>
-                    <p-dropdown inputId="class" [(ngModel)]="unite" [options]="unites" (onChange)="setUnite($event)" optionLabel="label" placeholder="Choisir"></p-dropdown>
+                    <p-autoComplete [(ngModel)]="unite" [suggestions]="filteredUnites" (completeMethod)="filterUnite($event)" field="label" [dropdown]="true"
+                    placeholder="Choisir" >
+                    </p-autoComplete>
                 </div>
 
                 <div class="field col-6">

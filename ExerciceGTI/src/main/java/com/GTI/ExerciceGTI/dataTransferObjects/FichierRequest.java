@@ -1,7 +1,7 @@
 package com.GTI.ExerciceGTI.dataTransferObjects;
 
-
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -9,8 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CompteResponse {
-    private Integer nCompte;
-    private Integer devise;
-    private String dateOuveurture;
+public class FichierRequest {
+        private Integer idDemande;
+        private Integer nature;
 }

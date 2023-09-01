@@ -16,8 +16,8 @@ export class CompteService {
     return this.http.get(`${this.apiUrl}/compte/${id}`)
   }
 
-  getComptes():Observable<Compte[]>{
-    return this.http.get<Compte[]>(`${this.apiUrl}/compte`)
+  getComptes(id:number):Observable<Compte[]>{
+    return this.http.get<Compte[]>(`${this.apiUrl}/comptes/${id}`)
       .pipe(map((res:Compte[])=> res),
       tap(_=>console.log('fetched comptes')),
       catchError(this.handleError<Compte[]>('getDemandeCredits',[]))

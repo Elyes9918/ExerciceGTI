@@ -14,6 +14,6 @@ import java.util.Date;
 public class CompteRequest {
 
     private String dateOuverture;
-    private Boolean enDevise;
+    private Integer devise;
     private Integer id_utilisateur;
 }

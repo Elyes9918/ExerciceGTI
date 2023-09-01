@@ -1,5 +1,5 @@
 export interface Compte {
     nCompte:number;
-    enDevise:number;
+    devise:number;
     dateOuveurture:string;
 }

@@ -5,6 +5,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DemandeService } from '../service/demande.service';
 import { DemandeCredit } from '../interfaces/DemandeCredit';
 import { GlobalVariables } from '../globalVariable';
+import { Router } from '@angular/router';
+import { AuthenticiationService } from '../service/authenticiation.service';
 
 
 interface expandedRows {
@@ -54,18 +56,30 @@ export class AdminPageComponent implements OnInit{
 
     Verify(demandeCredit:DemandeCredit){
       demandeCredit.etat=1
-      this.demandeService.updateDemandeCredit(demandeCredit,demandeCredit.numDemande);
+      this.demandeService.updateDemandeCredit(demandeCredit, demandeCredit.numDemande).subscribe(
+        (updatedDemandeCredit: DemandeCredit) => {
+          console.log('Updated demandeCredit:', updatedDemandeCredit);
+        },
+        (error) => {
+          console.error('Error updating demandeCredit:', error);
+        }
+      );
     }
 
     Denied(demandeCredit:DemandeCredit){
       demandeCredit.etat=2;
-      this.demandeService.updateDemandeCredit(demandeCredit,demandeCredit.numDemande);
+      this.demandeService.updateDemandeCredit(demandeCredit,demandeCredit.numDemande).subscribe(
+        (updatedDemandeCredit: DemandeCredit) => {
+          console.log('Updated demandeCredit:', updatedDemandeCredit);
+        },
+        (error) => {
+          console.error('Error updating demandeCredit:', error);
+        }
+      );
     }
 
     ViewPDF(){
 
     }
     
-  
-
 }

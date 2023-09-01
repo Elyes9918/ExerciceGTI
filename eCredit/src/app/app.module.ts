@@ -41,6 +41,8 @@ import { CardModule } from 'primeng/card';
 import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
+import { AutoCompleteModule } from "primeng/autocomplete";
+
 
 
 
@@ -89,7 +91,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     CardModule,
     CalendarModule,
     InputNumberModule,
-    FileUploadModule
+    FileUploadModule,
+    AutoCompleteModule
 
     
   ],

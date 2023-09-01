@@ -29,10 +29,16 @@
                                 <td>
                                   <p-tableCheckbox [value]="i+1"></p-tableCheckbox>
                                 </td>
-                                <td><input type="text" formControlName="nature" pInputText class="form-control" /></td>
-                                <td> <p-dropdown appendTo="body" [options]="typeGaranties"  formControlName="type"></p-dropdown></td>
+                                <td><p-autoComplete appendTo="body"  formControlName="natureGarantie" [suggestions]="filteredNatures" (completeMethod)="filterNature($event)" field="label" [dropdown]="true"
+                                  placeholder="Choisir" >
+                                  </p-autoComplete></td>
+                                <td> 
+                                  <p-autoComplete appendTo="body"  formControlName="typeGarantie" [suggestions]="filteredTypes" (completeMethod)="filterType($event)" field="label" [dropdown]="true"
+                                  placeholder="Choisir" >
+                                  </p-autoComplete></td>
                                 <td><input type="text" formControlName="valeur" pInputText class="form-control" /></td>
-                                <td><p-dropdown appendTo="body" [options]="enDevise" formControlName="devise"></p-dropdown></td>
+                                <td><p-autoComplete appendTo="body" formControlName="devise" [suggestions]="filteredDevises" (completeMethod)="filterDevise($event)" field="label" [dropdown]="true"
+                                    placeholder="Choisir" ></p-autoComplete></td>
                               </tr>
                             </ng-template>
                           </p-table>

@@ -9,8 +9,9 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CompteResponse {
-    private Integer nCompte;
-    private Integer devise;
-    private String dateOuveurture;
+public class FichierResponse {
+    private String fileName;
+    private String url;
+    private String type;
+    private Integer nature;
 }

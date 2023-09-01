@@ -30,9 +30,9 @@ public class CompteController {
     }
 
 
-    @GetMapping("/compte")
-    public ResponseEntity<List<CompteResponse>> getAllCompte(){
-        List<CompteResponse> body = compteService.getAllComptes();
+    @GetMapping("/comptes/{id}")
+    public ResponseEntity<List<CompteResponse>> getAllComptesById(@PathVariable("id") Integer id){
+        List<CompteResponse> body = compteService.getAllComptesById(id);
         return new ResponseEntity<List<CompteResponse>>(body, HttpStatus.OK);
     }
 

@@ -30,7 +30,7 @@ public class CompteService {
 
         Compte compte = Compte.builder()
                 .dateOuverture(request.getDateOuverture())
-                .enDevise(request.getEnDevise())
+                .devise(request.getDevise())
                 .utilisateur(utilisateur.get())
                 .build();
 
@@ -38,14 +38,14 @@ public class CompteService {
     }
 
 
-    public List<CompteResponse> getAllComptes() {
+    public List<CompteResponse> getAllComptesById(Integer id) {
 
-        List<Compte> comptes = compteRepository.findAll();
+        List<Compte> comptes = compteRepository.findComptesByUserId(id);
         List<CompteResponse> compteResponses = new ArrayList<>();
         for(Compte compte : comptes){
             CompteResponse compteResponse = CompteResponse.builder()
                     .nCompte(compte.getNCompte())
-                    .enDevise(compte.getEnDevise())
+                    .devise(compte.getDevise())
                     .dateOuveurture(compte.getDateOuverture())
                     .build();
 
@@ -61,7 +61,7 @@ public class CompteService {
 
             CompteResponse compteResponse = CompteResponse.builder()
                     .nCompte(compte.get().getNCompte())
-                    .enDevise(compte.get().getEnDevise())
+                    .devise(compte.get().getDevise())
                     .dateOuveurture(compte.get().getDateOuverture())
                     .build();
 

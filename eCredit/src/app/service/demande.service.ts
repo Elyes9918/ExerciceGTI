@@ -12,6 +12,8 @@ export class DemandeService {
 
   constructor(private http:HttpClient) { }
 
+  
+
 
   getDemandeCredits():Observable<DemandeCredit[]>{
     return this.http.get<DemandeCredit[]>(`${this.apiUrl}/demandeCredit`)
@@ -21,12 +23,13 @@ export class DemandeService {
       );
   }
 
-  updateDemandeCredit(demandeCredit: DemandeCredit, id: number) {
-    return this.http.put(`${this.apiUrl}/demandeCredit/${id}`, demandeCredit)
-    .pipe(catchError(this.handleError<any>()));
+  updateDemandeCredit(demandeCredit: DemandeCredit, id: number): Observable<DemandeCredit> {
+    return this.http.put<DemandeCredit>(`${this.apiUrl}/demandeCredit/${id}`, demandeCredit)
+      .pipe(
+        catchError(this.handleError<DemandeCredit>('updateDemandeCredit', {} as DemandeCredit))
+      );
   }
 
-  
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
   
