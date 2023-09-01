@@ -1,14 +1,9 @@
 package com.GTI.ExerciceGTI.controller;
 
-
-import com.GTI.ExerciceGTI.dataTransferObjects.CompteRequest;
-import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditRequest;
-import com.GTI.ExerciceGTI.dataTransferObjects.UtilisateurRequest;
 import com.GTI.ExerciceGTI.service.CompteService;
 import com.GTI.ExerciceGTI.service.DemandeCreditService;
 import com.GTI.ExerciceGTI.service.FichierService;
 import com.GTI.ExerciceGTI.service.UtilisateurService;
-import com.GTI.ExericeGTI.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,37 +13,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-
 @RestController
 @RequestMapping(path = "/api/v1")
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
-public class MainController {
+public class FichierController {
 
-    private final UtilisateurService utilisateurService;
-    private final CompteService compteService;
+
     private final FichierService fichierService;
-    private final DemandeCreditService demandeCreditService;
-
-    @PostMapping("/user")
-    public ResponseEntity<ApiResponse> addUser(@RequestBody UtilisateurRequest request){
-        utilisateurService.SignUp(request);
-
-        return new ResponseEntity<ApiResponse>(
-                new ApiResponse(true,"User has been added succesfully"), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/compte")
-    public ResponseEntity<ApiResponse> addCompte(@RequestBody CompteRequest request){
-        compteService.addCompte(request);
-
-        return new ResponseEntity<ApiResponse>(
-                new ApiResponse(true,"Compte has been added succesfully"), HttpStatus.CREATED);
-    }
-
-
-
-
 
     @PostMapping("/fichier")
     public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("file") MultipartFile file) throws IOException {
@@ -83,10 +55,5 @@ public class MainController {
                 .contentType(mediaType)
                 .body(fileData);
     }
-
-
-
-
-
 
 }

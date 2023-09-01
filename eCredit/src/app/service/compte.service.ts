@@ -1,32 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Compte } from '../interfaces/Compte';
 import { Observable, catchError, map, of, tap } from 'rxjs';
-import { DemandeCredit } from '../interfaces/DemandeCredit';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DemandeService {
+export class CompteService {
 
   private apiUrl = '/api/v1';
 
   constructor(private http:HttpClient) { }
 
+  getCompteById(id:number){
+    return this.http.get(`${this.apiUrl}/compte/${id}`)
+  }
 
-  getDemandeCredits():Observable<DemandeCredit[]>{
-    return this.http.get<DemandeCredit[]>(`${this.apiUrl}/demandeCredit`)
-      .pipe(map((res:DemandeCredit[])=> res),
-      tap(_=>console.log('fetched demands')),
-      catchError(this.handleError<DemandeCredit[]>('getDemandeCredits',[]))
+  getComptes():Observable<Compte[]>{
+    return this.http.get<Compte[]>(`${this.apiUrl}/compte`)
+      .pipe(map((res:Compte[])=> res),
+      tap(_=>console.log('fetched comptes')),
+      catchError(this.handleError<Compte[]>('getDemandeCredits',[]))
       );
   }
 
-  updateDemandeCredit(demandeCredit: DemandeCredit, id: number) {
-    return this.http.put(`${this.apiUrl}/demandeCredit/${id}`, demandeCredit)
-    .pipe(catchError(this.handleError<any>()));
-  }
-
-  
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
   
@@ -40,6 +37,9 @@ export class DemandeService {
       return of(result as T);
     };
   }
+
+
+
 
 
 }

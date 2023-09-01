@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Compte } from 'src/app/interfaces/Compte';
+import { Utilisateur } from 'src/app/interfaces/Utilisateur';
+import { CompteService } from 'src/app/service/compte.service';
+import { UserService } from 'src/app/service/user.service';
 
 
 @Component({
@@ -8,7 +12,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./info-client-step.component.scss']
 })
 export class InfoClientStepComponent implements OnInit {
-
 
   ncin!:String;
   nom!:String;
@@ -19,16 +22,14 @@ export class InfoClientStepComponent implements OnInit {
   sfamiliale!:String;
   devise!:boolean;
 
+  user!:Utilisateur;
   comptes!: any[];
+  compte!:Compte;
 
-  constructor( private router: Router) { }
+  constructor( private router: Router , private userService : UserService, private compteService : CompteService) { }
 
   ngOnInit() { 
-    this.comptes = [
-      {value: '13232'},
-      {value: '21672'},
-      {value: '42844'}
-  ];    
+   
   }
 
   setCompteNumber(event : any) {
@@ -36,7 +37,30 @@ export class InfoClientStepComponent implements OnInit {
       this.ncompte = event.value; 
     }
   }
+
+  getUserById(id:number){
+    this.userService.getUserById(id).subscribe(
+      (response:any)=>{
+        this.user=response;
+      }
+    )
+  }
+
+  getCompteById(id:number){
+    this.compteService.getCompteById(id).subscribe(
+      (response:any)=>{
+        this.compte=response;
+      }
+    )
+  }
   
+  getAllComptes(){
+    this.compteService.getComptes().subscribe(
+      (response:Compte[])=>{
+        this.comptes=response;
+      }
+    )
+  }
 
   nextPage() {
     this.router.navigate(['main/client/dossier']);

@@ -1,7 +1,10 @@
 package com.GTI.ExerciceGTI.service;
 
+import com.GTI.ExerciceGTI.dataTransferObjects.CompteResponse;
 import com.GTI.ExerciceGTI.dataTransferObjects.LoginRequest;
 import com.GTI.ExerciceGTI.dataTransferObjects.UtilisateurRequest;
+import com.GTI.ExerciceGTI.dataTransferObjects.UtilisateurResponse;
+import com.GTI.ExerciceGTI.model.Compte;
 import com.GTI.ExerciceGTI.model.Utilisateur;
 import com.GTI.ExerciceGTI.repos.UtilisateurRepository;
 import com.GTI.ExericeGTI.util.ApiResponse;
@@ -40,4 +43,18 @@ public class UtilisateurService {
     }
 
 
+    public UtilisateurResponse getUserById(Integer id) {
+        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(id);
+
+        UtilisateurResponse utilisateurResponse = UtilisateurResponse.builder()
+                .ncin(utilisateur.get().getNCin())
+                .nom(utilisateur.get().getNom())
+                .prenom(utilisateur.get().getPrenom())
+                .role(utilisateur.get().getRole())
+                .situationF(utilisateur.get().getSituationF())
+                .dateNaissance(utilisateur.get().getDateNaissance())
+                .build();
+
+        return utilisateurResponse;
+    }
 }

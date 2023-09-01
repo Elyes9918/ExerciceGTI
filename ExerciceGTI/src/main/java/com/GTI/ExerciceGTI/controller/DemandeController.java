@@ -32,7 +32,7 @@ public class DemandeController {
     @PostMapping("/demandeCredit")
     public ResponseEntity<ApiResponse> AjouterDemandeCredit(@RequestBody DemandeCreditRequest request){
         demandeCreditService.AjouterDemandeCredit(request);
-        return new ResponseEntity<com.GTI.ExericeGTI.util.ApiResponse>(
+        return new ResponseEntity<ApiResponse>(
                 new ApiResponse(true,"Demande credit has been added succesfully"), HttpStatus.CREATED);
     }
     
