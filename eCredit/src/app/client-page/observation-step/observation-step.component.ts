@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DemandeService } from 'src/app/service/demande.service';
 
 @Component({
   selector: 'app-observation-step',
@@ -8,15 +9,16 @@ import { Router } from '@angular/router';
 })
 export class ObservationStepComponent implements OnInit {
 
-  observation!:String;
+  observation:string="";
 
-  constructor( private router: Router) { }
+  constructor( private router: Router,private DemandeCreditService:DemandeService) { }
 
   ngOnInit() { 
   }
 
   nextPage() {
     this.router.navigate(['main/client/confirmation']);
+    this.DemandeCreditService.DemandeData.observation=this.observation;
   }
 
   prevPage() {

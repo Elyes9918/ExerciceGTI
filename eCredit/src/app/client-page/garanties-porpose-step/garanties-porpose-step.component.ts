@@ -9,6 +9,7 @@ import {
 } from "@angular/forms";
 import { MessageService, SelectItem } from "primeng/api";
 import { GlobalVariables } from 'src/app/globalVariable';
+import { DemandeService } from 'src/app/service/demande.service';
 
 @Component({
   selector: 'app-garanties-porpose-step',
@@ -27,7 +28,6 @@ export class GarantiesPorposeStepComponent implements OnInit {
   filteredDevises: any[] = [];
 
 
-
   initialValues = [
     { natureGarantie: "", typeGarantie: "", valeur: "", devise: "" },
   ];
@@ -42,7 +42,8 @@ export class GarantiesPorposeStepComponent implements OnInit {
   valSwitch!:Boolean
 
 
-  constructor( private router: Router,private formBuilder: FormBuilder, private messageService: MessageService) { }
+  constructor( private router: Router,private formBuilder: FormBuilder, private messageService: MessageService,
+    private DemandeCreditService:DemandeService) { }
 
   get garantiesDetails(): FormArray {
     return this.userForm.get("garantiesDetails") as FormArray;
@@ -53,7 +54,6 @@ export class GarantiesPorposeStepComponent implements OnInit {
     this.typeGaranties = GlobalVariables.typeGaranties;
     this.natureGaranties = GlobalVariables.garanties;
     this.devises = GlobalVariables.devise;
-
 
     this.userForm = this.formBuilder.group({
       garantiesDetails: this.formBuilder.array([]),
@@ -75,7 +75,6 @@ export class GarantiesPorposeStepComponent implements OnInit {
       });
       return;
     }
-    console.log(this.selectedGaranties);
     for (var i = this.selectedGaranties.length - 1; i >= 0; i--) {
       this.garantiesDetails.controls.splice(this.selectedGaranties[i] - 1, 1);
     }
@@ -88,11 +87,29 @@ export class GarantiesPorposeStepComponent implements OnInit {
     this.selectedGaranties = [];
   }
  
-  /**
-   * click on  submit button
-   */
+
   onSubmit() {
-    this.data = JSON.stringify(this.garantiesDetails.value);
+    this.DemandeCreditService.DemandeData.garantieRequests=this.processGaranties(this.garantiesDetails.value);
+  }
+
+  processGaranties(garantiesJson: any[]): any[] {
+    // Iterate through each object in the array
+    const processedGaranties = garantiesJson.map((garantie) => {
+      // Extract "value" from "natureGarantie" and "typeGarantie" objects
+      const natureGarantie = garantie.natureGarantie.value;
+      const typeGarantie = garantie.typeGarantie.value;
+      const devise = garantie.devise.value;
+  
+      // Create a new object with extracted values and the untouched "valeur" property
+      return {
+        natureGarantie,
+        typeGarantie,
+        valeur: garantie.valeur,
+        devise,
+      };
+    });
+  
+    return processedGaranties;
   }
  
   /**
@@ -112,6 +129,8 @@ export class GarantiesPorposeStepComponent implements OnInit {
       valeur: new FormControl(null),
       devise: new FormControl(""),
     });
+
+
   }
  
   /**

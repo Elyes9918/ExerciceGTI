@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of, tap } from 'rxjs';
+import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { DemandeCredit } from '../interfaces/DemandeCredit';
+import { DemandeCreditRequest } from '../interfaces/DemandeCreditRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,38 @@ export class DemandeService {
 
   private apiUrl = '/api/v1';
 
-  constructor(private http:HttpClient) { }
+  public DemandeData!: DemandeCreditRequest;
+
+  constructor(private http:HttpClient) {
+
+    this.DemandeData = {
+      ncin: 0, // Initialize with default values or appropriate values
+      ncompte: 0,
+      type: 0,
+      montant: 0,
+      unite: 0,
+      nbreEcheance: 0,
+      observation: "",
+      garantieRequests: [],
+    };
+
+
+   }
 
   
+   saveDemandeCredit(data: DemandeCreditRequest): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http
+      .post<any>(`${this.apiUrl}/demandeCredit`, data, { headers })
+      .pipe(
+        catchError((error) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+  }
 
-
+  
   getDemandeCredits():Observable<DemandeCredit[]>{
     return this.http.get<DemandeCredit[]>(`${this.apiUrl}/demandeCredit`)
       .pipe(map((res:DemandeCredit[])=> res),

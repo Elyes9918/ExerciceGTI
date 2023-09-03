@@ -42,9 +42,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AutoCompleteModule } from "primeng/autocomplete";
-
-
-
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 
 
@@ -92,7 +90,8 @@ import { AutoCompleteModule } from "primeng/autocomplete";
     CalendarModule,
     InputNumberModule,
     FileUploadModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    InputTextareaModule
 
     
   ],

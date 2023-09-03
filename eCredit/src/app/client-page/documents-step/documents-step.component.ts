@@ -4,6 +4,7 @@ import { FichierService } from '../../service/fichier.service';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { Fichier } from 'src/app/interfaces/Fichier';
+import { DemandeService } from 'src/app/service/demande.service';
 
 @Component({
   selector: 'app-documents-step',
@@ -33,7 +34,7 @@ export class DocumentsStepComponent implements OnInit {
   bulletainPaieStatus:boolean = false;
   cinStatus:boolean = false;
 
-  typeCrédit:number=2;
+  typeCredit:number=this.DemandeCreditService?.DemandeData?.type;
 
   fichiers!: any[];
 
@@ -42,7 +43,7 @@ export class DocumentsStepComponent implements OnInit {
 
 
 
-  constructor( private router: Router,private fichierService:FichierService) { }
+  constructor( private router: Router,private fichierService:FichierService,private DemandeCreditService:DemandeService) { }
 
   ngOnInit() { 
     this.getAllFichiersByIdUser(this.idLoggedInUser);
@@ -59,9 +60,9 @@ export class DocumentsStepComponent implements OnInit {
   }
 
   determineCreditType(){
-    if(this.typeCrédit===1){
+    if(this.typeCredit===1){
       this.tableToItereate=this.CreditPersonnel;
-    }else if(this.typeCrédit===2){
+    }else if(this.typeCredit===2){
       this.tableToItereate=this.CreditAuto;
     }else{
       this.tableToItereate=this.CreditTravaux;
@@ -102,7 +103,7 @@ export class DocumentsStepComponent implements OnInit {
         this.fileUploadStatus[i] = true;
         if (event instanceof HttpResponse) {
           console.log(event.body.message)
-          
+
         }
       },
       (err: any) => {

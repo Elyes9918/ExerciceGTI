@@ -5,6 +5,7 @@ import { Compte } from 'src/app/interfaces/Compte';
 import { Utilisateur } from 'src/app/interfaces/Utilisateur';
 import { AuthenticiationService } from 'src/app/service/authenticiation.service';
 import { CompteService } from 'src/app/service/compte.service';
+import { DemandeService } from 'src/app/service/demande.service';
 import { UserService } from 'src/app/service/user.service';
 
 
@@ -16,19 +17,19 @@ import { UserService } from 'src/app/service/user.service';
 export class InfoClientStepComponent implements OnInit {
 
   ncin!:number;
-  nom!:String;
-  prenom!:String;
-  ncompte!:String;
+  nom!:string;
+  prenom!:string;
+  ncompte!:string;
   dateouv!:Date;
   datenaiss!:Date;
-  sfamiliale!:String;
+  sfamiliale!:string;
   devise!: string;
 
   user!:Utilisateur;
   comptes!: any[];
   compte!:Compte;
 
-  constructor( private router: Router , private userService : UserService, private compteService : CompteService,private authService:AuthenticiationService) { }
+  constructor( private router: Router , private userService : UserService, private compteService : CompteService,private authService:AuthenticiationService,private DemandeCreditService:DemandeService) { }
 
   ngOnInit() { 
     const userId = this.authService.getLoggedinUser();
@@ -79,7 +80,6 @@ export class InfoClientStepComponent implements OnInit {
           const firstCompteId = this.comptes[0].ncompte;
           this.getCompteById(firstCompteId);
         }
-        console.log(this.comptes)
 
       }
     )
@@ -87,6 +87,8 @@ export class InfoClientStepComponent implements OnInit {
 
   nextPage() {
     this.router.navigate(['main/client/dossier']);
+    this.DemandeCreditService.DemandeData.ncin=this.ncin;
+    this.DemandeCreditService.DemandeData.ncompte=Number(this.ncompte);
   }
 
 }

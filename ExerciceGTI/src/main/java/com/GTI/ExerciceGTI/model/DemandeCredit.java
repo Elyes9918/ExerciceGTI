@@ -30,6 +30,7 @@ public class DemandeCredit {
     private Integer unite;
     private Integer nbreEcheance;
     private Integer montant;
+    private Integer ncompte;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -11,8 +11,8 @@ import lombok.*;
 public class GarantieRequest {
 
     private Integer devise;
-    private Integer nature;
-    private Integer type;
+    private Integer natureGarantie;
+    private Integer typeGarantie;
     private Integer valeur;
 
 }

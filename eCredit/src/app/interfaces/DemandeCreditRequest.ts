@@ -6,6 +6,6 @@ export interface DemandeCreditRequest {
     montant:number;
     unite:number;
     nbreEcheance:number;
-    observation:number;
+    observation:string;
     garantieRequests:Garantie[];
 }

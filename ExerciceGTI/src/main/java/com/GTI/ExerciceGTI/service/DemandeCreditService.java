@@ -40,6 +40,7 @@ public class DemandeCreditService {
                 .montant(request.getMontant())
                 .unite(request.getUnite())
                 .nbreEcheance(request.getNbreEcheance())
+                .ncompte(request.getNcompte())
                 .utilisateur(utilisateur.get())
                 .build();
 

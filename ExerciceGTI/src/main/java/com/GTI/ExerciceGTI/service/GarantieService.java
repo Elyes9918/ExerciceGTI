@@ -26,8 +26,8 @@ public class GarantieService {
 
         Garantie garantie = Garantie.builder()
                 .devise(request.getDevise())
-                .nature(request.getNature())
-                .type(request.getType())
+                .nature(request.getNatureGarantie())
+                .type(request.getTypeGarantie())
                 .valeur(request.getValeur())
                 .demandeCredit(demandeCredit)
                 .build();

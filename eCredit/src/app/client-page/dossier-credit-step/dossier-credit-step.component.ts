@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GlobalVariables } from 'src/app/globalVariable';
+import { DemandeService } from 'src/app/service/demande.service';
 
 @Component({
   selector: 'app-dossier-credit-step',
@@ -15,12 +16,12 @@ export class DossierCreditStepComponent implements OnInit {
   unites!: any[];
   filteredUnites: any[] = [];
 
-  credit!:String;
+  credit!:any;
   montant!:String;
-  unite!:String;
+  unite!:any;
   nbecheance!:String;
 
-  constructor( private router: Router) { }
+  constructor( private router: Router,private demandeCreditService:DemandeService) { }
 
   ngOnInit() { 
     this.typeCredit = GlobalVariables.typeCredit;
@@ -66,6 +67,18 @@ export class DossierCreditStepComponent implements OnInit {
 
   nextPage() {
     this.router.navigate(['main/client/garantie']);
+
+    this.demandeCreditService.DemandeData.type=this.credit.value;
+    this.demandeCreditService.DemandeData.montant=Number(this.montant);
+    this.demandeCreditService.DemandeData.unite=this.unite.value;
+    this.demandeCreditService.DemandeData.nbreEcheance=Number(this.nbecheance);
+
+    // const dossierCredit = {
+    //   credit: this.credit.value,
+    //   montant: this.montant,
+    //   unite: this.unite.value,
+    //   nbecheance: this.nbecheance,
+    // };
   }
 
   prevPage() {
