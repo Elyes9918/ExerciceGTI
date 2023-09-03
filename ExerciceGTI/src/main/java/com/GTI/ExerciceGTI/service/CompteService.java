@@ -26,7 +26,7 @@ public class CompteService {
 
     public void addCompte(CompteRequest request){
 
-        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(request.getId_utilisateur());
+        Optional<Utilisateur> utilisateur = Optional.ofNullable(utilisateurRepository.findByNcin(request.getId_utilisateur()));
 
         Compte compte = Compte.builder()
                 .dateOuverture(request.getDateOuverture())

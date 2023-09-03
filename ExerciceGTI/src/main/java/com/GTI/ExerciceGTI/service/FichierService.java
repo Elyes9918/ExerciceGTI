@@ -41,7 +41,7 @@ public class FichierService {
     public String uploadFile(MultipartFile file, Integer nCin, Integer nature) throws IOException {
         String fileName = file.getOriginalFilename();
         String fileExtension = FilenameUtils.getExtension(fileName); // Using FilenameUtils from Apache Commons IO
-        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(nCin);
+        Optional<Utilisateur> utilisateur = Optional.ofNullable(utilisateurRepository.findByNcin(nCin));
 
         if (utilisateur.isPresent()) {
 
@@ -120,7 +120,7 @@ public class FichierService {
                     .url(fichier.getFilePath())
                     .type(fichier.getType())
                     .nature(fichier.getNature())
-                    .idUser(fichier.getUtilisateur().getNCin())
+                    .idUser(fichier.getUtilisateur().getNcin())
                     .uuid(fichier.getUuid())
                     .extension(fichier.getExtension())
                     .build();

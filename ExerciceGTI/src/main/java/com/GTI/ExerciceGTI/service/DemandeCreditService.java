@@ -29,7 +29,7 @@ public class DemandeCreditService {
 
     public void AjouterDemandeCredit(DemandeCreditRequest request){
 
-        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(request.getNcin());
+        Optional<Utilisateur> utilisateur = Optional.ofNullable(utilisateurRepository.findByNcin(request.getNcin()));
 
         DemandeCredit demandeCredit = DemandeCredit.builder()
                 .idDemande((int) (Math.random() * (Math.pow(10, 6 - 1) * 9) + Math.pow(10, 6 - 1)))

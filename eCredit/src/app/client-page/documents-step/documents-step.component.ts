@@ -28,25 +28,18 @@ export class DocumentsStepComponent implements OnInit {
   fileUploadStatus: boolean[] = [];
   fileUploadDisabled: boolean[] = Array(this.tableToItereate.length).fill(false);
 
-
   uploadedFiles: any[] = [];
-
-  bulletainPaieStatus:boolean = false;
-  cinStatus:boolean = false;
-
-  typeCredit:number=this.DemandeCreditService?.DemandeData?.type;
-
   fichiers!: any[];
 
-  idLoggedInUser=sessionStorage.getItem('ncin') || '';
 
+  typeCredit:number=this.DemandeCreditService?.DemandeData?.type;
 
 
 
   constructor( private router: Router,private fichierService:FichierService,private DemandeCreditService:DemandeService) { }
 
   ngOnInit() { 
-    this.getAllFichiersByIdUser(this.idLoggedInUser);
+    this.getAllFichiersByIdUser(this.DemandeCreditService?.DemandeData?.ncin.toString());
   }
 
   getAllFichiersByIdUser(id:String){
@@ -98,7 +91,7 @@ export class DocumentsStepComponent implements OnInit {
     const nature = document?.value || '';
 
     for (const file of event.files) {
-      this.fichierService.upload(file,this.idLoggedInUser,nature).subscribe(
+      this.fichierService.upload(file,this.DemandeCreditService?.DemandeData?.ncin.toString(),nature).subscribe(
       (event: any) => {
         this.fileUploadStatus[i] = true;
         if (event instanceof HttpResponse) {
@@ -109,7 +102,6 @@ export class DocumentsStepComponent implements OnInit {
       (err: any) => {
       });
     }
-    this.bulletainPaieStatus=true;
   }
 
   download(nomDocument:string):void{

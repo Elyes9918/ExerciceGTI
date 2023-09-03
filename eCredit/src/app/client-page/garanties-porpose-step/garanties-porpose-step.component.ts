@@ -41,6 +41,9 @@ export class GarantiesPorposeStepComponent implements OnInit {
 
   valSwitch!:Boolean
 
+  areGarantiesSubmited:boolean=false;
+
+
 
   constructor( private router: Router,private formBuilder: FormBuilder, private messageService: MessageService,
     private DemandeCreditService:DemandeService) { }
@@ -90,6 +93,7 @@ export class GarantiesPorposeStepComponent implements OnInit {
 
   onSubmit() {
     this.DemandeCreditService.DemandeData.garantieRequests=this.processGaranties(this.garantiesDetails.value);
+    this.areGarantiesSubmited=true;
   }
 
   processGaranties(garantiesJson: any[]): any[] {

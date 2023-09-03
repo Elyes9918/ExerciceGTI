@@ -20,6 +20,7 @@ public class UtilisateurService {
     public void SignUp(UtilisateurRequest request){
 
         Utilisateur utilisateur = Utilisateur.builder()
+                .ncin(Integer.parseInt(request.getNcin()))
                 .nom(request.getNom())
                 .prenom(request.getPrenom())
                 .role(request.getRole())
@@ -33,7 +34,7 @@ public class UtilisateurService {
 
     public ApiResponse validateLogin(LoginRequest request){
 
-        Optional<Utilisateur> user = utilisateurRepository.findById(request.getNcin());
+        Optional<Utilisateur> user = Optional.ofNullable(utilisateurRepository.findByNcin(request.getNcin()));
 
         if (user.isEmpty() || !user.get().getMotDePasse().equals(request.getPassword())) {
             return new ApiResponse(false, "Invalid username or password");
@@ -44,10 +45,10 @@ public class UtilisateurService {
 
 
     public UtilisateurResponse getUserById(Integer id) {
-        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(id);
+        Optional<Utilisateur> utilisateur = Optional.ofNullable(utilisateurRepository.findByNcin(id));
 
         UtilisateurResponse utilisateurResponse = UtilisateurResponse.builder()
-                .ncin(utilisateur.get().getNCin())
+                .ncin(utilisateur.get().getNcin())
                 .nom(utilisateur.get().getNom())
                 .prenom(utilisateur.get().getPrenom())
                 .role(utilisateur.get().getRole())

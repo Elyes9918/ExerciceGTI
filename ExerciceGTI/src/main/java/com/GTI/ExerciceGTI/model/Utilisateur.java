@@ -21,7 +21,8 @@ public class Utilisateur {
 
     @Id
     @GeneratedValue
-    private Integer nCin;
+    private Integer id;
+    private Integer ncin;
     private String motDePasse;
     private String nom;
     private String prenom;

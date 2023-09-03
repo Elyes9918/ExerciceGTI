@@ -22,8 +22,6 @@ public class GarantieService {
 
     public void addGarantie(GarantieRequest request,DemandeCredit demandeCredit){
 
-        //Optional<DemandeCredit> demandeCredit = demandeCreditRepository.findById(request.getId_demandeCredit());
-
         Garantie garantie = Garantie.builder()
                 .devise(request.getDevise())
                 .nature(request.getNatureGarantie())

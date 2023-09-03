@@ -13,6 +13,7 @@ import java.util.Date;
 @Builder
 public class UtilisateurRequest {
 
+    private String ncin;
     private String nom;
     private String prenom;
     private String mdp;

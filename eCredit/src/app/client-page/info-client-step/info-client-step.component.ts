@@ -29,15 +29,19 @@ export class InfoClientStepComponent implements OnInit {
   comptes!: any[];
   compte!:Compte;
 
+  disableNcinField:boolean=false;
+  nCinIsIncorrect:boolean=true;
+
   constructor( private router: Router , private userService : UserService, private compteService : CompteService,private authService:AuthenticiationService,private DemandeCreditService:DemandeService) { }
 
   ngOnInit() { 
-    const userId = this.authService.getLoggedinUser();
-    if (userId !== null) {
-      this.getUserById(+userId);
-      this.getAllComptesByIdUser(+userId)
-      
-    }   
+  }
+
+  populateFields(){
+    if(this.ncin.toString().length===8){
+      this.getUserById(+this.ncin);
+      this.getAllComptesByIdUser(+this.ncin)
+    }
   }
 
   setCompteNumber(event : any) {
@@ -50,6 +54,7 @@ export class InfoClientStepComponent implements OnInit {
   getUserById(id:number){
     this.userService.getUserById(id).subscribe(
       (response:any)=>{
+        this.disableNcinField=true;
         this.user=response;
         this.ncin = this.user.ncin;
         this.nom=this.user.nom;
@@ -75,7 +80,6 @@ export class InfoClientStepComponent implements OnInit {
     this.compteService.getComptes(id).subscribe(
       (response:Compte[])=>{
         this.comptes=response;
-
         if (this.comptes && this.comptes.length > 0) {
           const firstCompteId = this.comptes[0].ncompte;
           this.getCompteById(firstCompteId);
@@ -88,7 +92,8 @@ export class InfoClientStepComponent implements OnInit {
   nextPage() {
     this.router.navigate(['main/client/dossier']);
     this.DemandeCreditService.DemandeData.ncin=this.ncin;
-    this.DemandeCreditService.DemandeData.ncompte=Number(this.ncompte);
+    this.DemandeCreditService.DemandeData.ncompte= Number.isNaN(Number(this.ncompte)) ?
+    Number(this.comptes[0].ncompte) : Number(this.ncompte);  
   }
 
 }
