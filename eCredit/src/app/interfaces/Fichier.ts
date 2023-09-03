@@ -1,7 +1,11 @@
-export interface Compte {
+export interface Fichier {
     id:number;
-    nomFichier:string;
+    fileName:string;
     type:string;
-    filePath:string;
+    url:string;
+    nature:string;
+    idUser:string;
+    uuid:string;
+    extenstion:string;
 }
 

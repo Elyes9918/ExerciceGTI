@@ -10,26 +10,28 @@
             <div class="p-fluid formgrid grid">
                 
                 <ng-container *ngFor="let item of tableToItereate; let i = index" class="credit-auto-block">
-
-                <div class="field col-11">
-                    <h6 for="class">{{ item }}*</h6>
-                    <p-fileUpload  name="file[]" [customUpload]="true" (uploadHandler)="onUploadBP($event,item,i)"
-                          [multiple]="false"  [maxFileSize]="4000000" >
-                        <ng-template pTemplate="content">
-                            <ul *ngIf="uploadedFiles.length">
-                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-                            </ul>
-                        </ng-template>
-                    </p-fileUpload>
-                </div>
-
-                <div class="field col-1">
-                    <h6 for="class" [ngStyle]="{'padding-left':'25px'}">Status</h6>
-                    <div [ngStyle]="{'padding-left':'2rem','padding-top': '4rem'}">
-                         <button pButton pRipple type="button" [icon]="fileUploadStatus[i] ? 'pi pi-check' : 'pi pi-times'" 
-                          [ngClass]="fileUploadStatus[i] ? 'p-button-rounded' : 'p-button-rounded  p-button-danger'" ></button>
+                    <div class="field col-11">
+                        <h6 for="class">{{ item }}*  
+                            <span *ngIf="fileUploadStatus[i]" class="download-link" (click)="download(item)">Aperçu</span>
+                        
+                        </h6>
+                        <p-fileUpload  name="file[]" [customUpload]="true" (uploadHandler)="onUploadBP($event,item,i)"
+                            [multiple]="false"  [maxFileSize]="4000000"  >
+                            <ng-template pTemplate="content">
+                                <ul *ngIf="uploadedFiles.length">
+                                    <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                                </ul>
+                            </ng-template>
+                        </p-fileUpload>
                     </div>
-                </div>
+
+                    <div class="field col-1">
+                        <h6 for="class" [ngStyle]="{'padding-left':'25px'}">Status</h6>
+                        <div [ngStyle]="{'padding-left':'2rem','padding-top': '4rem'}">
+                            <button pButton pRipple type="button" [icon]="fileUploadStatus[i] ? 'pi pi-check' : 'pi pi-times'" 
+                            [ngClass]="fileUploadStatus[i] ? 'p-button-rounded' : 'p-button-rounded  p-button-danger'" ></button>
+                        </div>
+                    </div>
                 </ng-container>
 
             

@@ -11,7 +11,9 @@ import com.GTI.ExerciceGTI.model.Utilisateur;
 import com.GTI.ExerciceGTI.repos.DemandeCreditRepository;
 import com.GTI.ExerciceGTI.repos.FichierRepository;
 import com.GTI.ExerciceGTI.repos.UtilisateurRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -38,44 +38,61 @@ public class FichierService {
    private final String path_fichier="/Users/Elyes/OneDrive/Desktop/Files/";
 
 
-    public String uploadFile(MultipartFile file,Integer nCin,Integer nature) throws IOException {
+    public String uploadFile(MultipartFile file, Integer nCin, Integer nature) throws IOException {
         String fileName = file.getOriginalFilename();
-        Path filePath = Paths.get(path_fichier, fileName);
-
+        String fileExtension = FilenameUtils.getExtension(fileName); // Using FilenameUtils from Apache Commons IO
         Optional<Utilisateur> utilisateur = utilisateurRepository.findById(nCin);
 
-        Fichier fileData = fichierRepository.save(Fichier.builder()
-                .nomFichier(fileName)
-                .type(file.getContentType())
-                .filePath(filePath.toString())  // Save the full path as a string
-                .utilisateur(utilisateur.get())
-                .nature(nature)
-                .build());
+        if (utilisateur.isPresent()) {
 
-        // Use Files.copy to save the uploaded file
-        Files.copy(file.getInputStream(), filePath);
+        for(Fichier fichier:utilisateur.get().getFichiers()) {
+            if(Objects.equals(fichier.getNature(), nature)){
+                Fichier temp;
+                temp=fichier;
+                fichierRepository.deleteById(temp.getId());
+                break;
+            }
+        }
 
-        if (fileData != null) {
-            return "File uploaded successfully: " + filePath;
+            // Generate a unique ID for the file
+            String fileId = UUID.randomUUID().toString();;
+
+            // Construct the new file name as idFile.extension
+            String newFileName = fileId + "." + fileExtension;
+
+            Path filePath = Paths.get(path_fichier, newFileName);
+
+            Fichier fileData = fichierRepository.save(Fichier.builder()
+                    .nomFichier(fileName)
+                    .type(file.getContentType())
+                    .filePath(filePath.toString()) // Save the full path as a string
+                    .utilisateur(utilisateur.get())
+                    .nature(nature)
+                    .extension(fileExtension)
+                    .uuid(fileId)
+                    .build());
+
+
+
+            // Use Files.copy to save the uploaded file
+            Files.copy(file.getInputStream(), filePath);
+
+            if (fileData != null) {
+                return "File uploaded successfully: " + filePath;
+            }
         }
         return null;
     }
 
-    public byte[] downloadFile(String fileName) throws IOException {
-        Optional<Fichier> fileData = fichierRepository.findByNomFichier(fileName);
-        String filePath=fileData.get().getFilePath();
+
+
+
+    public byte[] downloadFile(Fichier fichier) throws IOException {
+        String filePath=fichier.getFilePath();
         byte[] files = Files.readAllBytes(new File(filePath).toPath());
         return files;
     }
 
-    // Helper method to extract file extension from the file name
-    public String getFileExtension(String fileName) {
-        int dotIndex = fileName.lastIndexOf('.');
-        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
-            return fileName.substring(dotIndex + 1);
-        }
-        return "";
-    }
 
     // Helper method to get MediaType based on file extension
     public MediaType getMediaTypeForExtension(String extension) {
@@ -104,6 +121,8 @@ public class FichierService {
                     .type(fichier.getType())
                     .nature(fichier.getNature())
                     .idUser(fichier.getUtilisateur().getNCin())
+                    .uuid(fichier.getUuid())
+                    .extension(fichier.getExtension())
                     .build();
 
             fichierResponses.add(fichierResponse);

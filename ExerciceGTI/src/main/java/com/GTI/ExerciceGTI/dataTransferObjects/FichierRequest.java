@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @Builder
 public class FichierRequest {
-        private Integer idDemande;
+        private Integer idUtilisateur;
         private Integer nature;
+        private String extension;
+        private String uuid;
 }

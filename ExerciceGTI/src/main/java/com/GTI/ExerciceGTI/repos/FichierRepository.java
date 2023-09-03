@@ -1,7 +1,7 @@
 package com.GTI.ExerciceGTI.repos;
 
-import com.GTI.ExerciceGTI.model.Compte;
 import com.GTI.ExerciceGTI.model.Fichier;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +16,10 @@ public interface FichierRepository extends JpaRepository<Fichier, Integer> {
 
      @Query("select f from Fichier f where f.utilisateur.nCin = :nCin")
      List<Fichier> findFichierByUserId(@Param("nCin") Integer nCin);
+
+     Fichier findByUuid(String uuid);
+
+     @Transactional
+     void deleteById(Integer id);
+
 }

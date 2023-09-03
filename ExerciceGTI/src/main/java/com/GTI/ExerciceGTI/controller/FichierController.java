@@ -3,11 +3,14 @@ package com.GTI.ExerciceGTI.controller;
 import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditResponse;
 import com.GTI.ExerciceGTI.dataTransferObjects.FichierRequest;
 import com.GTI.ExerciceGTI.dataTransferObjects.FichierResponse;
+import com.GTI.ExerciceGTI.model.Fichier;
+import com.GTI.ExerciceGTI.repos.FichierRepository;
 import com.GTI.ExerciceGTI.service.CompteService;
 import com.GTI.ExerciceGTI.service.DemandeCreditService;
 import com.GTI.ExerciceGTI.service.FichierService;
 import com.GTI.ExerciceGTI.service.UtilisateurService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/v1")
@@ -25,6 +29,7 @@ public class FichierController {
 
 
     private final FichierService fichierService;
+    private final FichierRepository fichierRepository;
 
     @PostMapping("/fichier")
     public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("file") MultipartFile file,
@@ -54,15 +59,18 @@ public class FichierController {
         return new ResponseEntity<List<FichierResponse>>(body,HttpStatus.OK);
     }
 
-    @GetMapping("/fichier/{fileName}")
-    public ResponseEntity<byte[]> downloadFileFromFileSystem(@PathVariable String fileName) throws IOException {
-        byte[] fileData = fichierService.downloadFile(fileName);
+    @GetMapping("/fichier/{uuid}")
+    public ResponseEntity<byte[]> downloadFileFromFileSystem(@PathVariable String uuid) throws IOException {
+        Optional<Fichier> fichier = Optional.ofNullable(fichierRepository.findByUuid(uuid));
+        byte[] fileData = fichierService.downloadFile(fichier.get());
+        MediaType mediaType = fichierService.getMediaTypeForExtension(fichier.get().getExtension());
 
-        // Determine the file's content type based on its extension
-        String extension = fichierService.getFileExtension(fileName);
-        MediaType mediaType = fichierService.getMediaTypeForExtension(extension);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(mediaType);
+        headers.setContentDispositionFormData("attachment", fichier.get().getNomFichier()); // Set original filename
 
         return ResponseEntity.status(HttpStatus.OK)
+                .headers(headers)
                 .contentType(mediaType)
                 .body(fileData);
     }

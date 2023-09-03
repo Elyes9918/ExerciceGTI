@@ -23,6 +23,8 @@ public class Fichier {
     private String type;
     private Integer nature;
     private String filePath;
+    private String extension;
+    private String uuid;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
