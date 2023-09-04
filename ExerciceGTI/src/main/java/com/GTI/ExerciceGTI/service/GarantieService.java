@@ -1,5 +1,6 @@
 package com.GTI.ExerciceGTI.service;
 
+import com.GTI.ExerciceGTI.IService.IGarantieService;
 import com.GTI.ExerciceGTI.dataTransferObjects.CompteRequest;
 import com.GTI.ExerciceGTI.dataTransferObjects.GarantieRequest;
 import com.GTI.ExerciceGTI.model.Compte;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class GarantieService {
+public class GarantieService implements IGarantieService {
 
     private final GarantieRepository garantieRepository;
     private final DemandeCreditRepository demandeCreditRepository;

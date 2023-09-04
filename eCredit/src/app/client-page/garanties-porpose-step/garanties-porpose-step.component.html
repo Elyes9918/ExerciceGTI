@@ -31,22 +31,23 @@
                                 </td>
 
                                 <td><p-autoComplete appendTo="body"  formControlName="natureGarantie" [suggestions]="filteredNatures" (completeMethod)="filterNature($event)" field="label" [dropdown]="true"
-                                  placeholder="Choisir" >
+                                  placeholder="Choisir" [disabled]="consultationFlag" >
                                   </p-autoComplete>
                                 </td>
 
                                 <td>  
                                   <p-autoComplete appendTo="body"  formControlName="typeGarantie" [suggestions]="filteredTypes" (completeMethod)="filterType($event)" field="label" [dropdown]="true"
-                                  placeholder="Choisir" >
+                                  placeholder="Choisir" [disabled]="consultationFlag">
                                   </p-autoComplete>
                                 </td>
 
                                 <td>
-                                  <p-inputNumber mode="decimal" formControlName="valeur" [showButtons]="true" [min]="0" ></p-inputNumber>
+                                  <p-inputNumber mode="decimal" formControlName="valeur" [showButtons]="true" [min]="0" 
+                                  [disabled]="consultationFlag"></p-inputNumber>
                                 </td>
 
                                 <td><p-autoComplete appendTo="body" formControlName="devise" [suggestions]="filteredDevises" (completeMethod)="filterDevise($event)" field="label" [dropdown]="true"
-                                    placeholder="Choisir" ></p-autoComplete>
+                                    placeholder="Choisir" [disabled]="consultationFlag"></p-autoComplete>
                                 </td>
                                   
                               </tr>

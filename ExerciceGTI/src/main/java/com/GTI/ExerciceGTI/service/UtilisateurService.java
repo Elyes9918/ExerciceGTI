@@ -1,5 +1,6 @@
 package com.GTI.ExerciceGTI.service;
 
+import com.GTI.ExerciceGTI.IService.IUtilisateurService;
 import com.GTI.ExerciceGTI.dataTransferObjects.CompteResponse;
 import com.GTI.ExerciceGTI.dataTransferObjects.LoginRequest;
 import com.GTI.ExerciceGTI.dataTransferObjects.UtilisateurRequest;
@@ -7,7 +8,7 @@ import com.GTI.ExerciceGTI.dataTransferObjects.UtilisateurResponse;
 import com.GTI.ExerciceGTI.model.Compte;
 import com.GTI.ExerciceGTI.model.Utilisateur;
 import com.GTI.ExerciceGTI.repos.UtilisateurRepository;
-import com.GTI.ExericeGTI.util.ApiResponse;
+import com.GTI.ExerciceGTI.util.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UtilisateurService {
+public class UtilisateurService implements IUtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
     public void SignUp(UtilisateurRequest request){
 

@@ -23,7 +23,13 @@ const routes: Routes = [
           {path:'garantie',component:GarantiesPorposeStepComponent},
           {path:'documents',component:DocumentsStepComponent},
           {path:'observation',component:ObservationStepComponent},
-          {path:'confirmation',component:ConfirmationStepComponent}
+          {path:'confirmation',component:ConfirmationStepComponent},
+          {path:'info/:id',component:InfoClientStepComponent},
+          {path:'dossier/:id',component:DossierCreditStepComponent},
+          {path:'garantie/:id',component:GarantiesPorposeStepComponent},
+          {path:'documents/:id',component:DocumentsStepComponent},
+          {path:'observation/:id',component:ObservationStepComponent},
+          {path:'confirmation/:id',component:ConfirmationStepComponent}
         ]
       },
       {path:'admin',component:AdminPageComponent}

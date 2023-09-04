@@ -6,6 +6,7 @@ import com.GTI.ExerciceGTI.service.CompteService;
 import com.GTI.ExerciceGTI.service.DemandeCreditService;
 import com.GTI.ExerciceGTI.service.FichierService;
 import com.GTI.ExerciceGTI.service.UtilisateurService;
+import com.GTI.ExerciceGTI.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,11 @@ public class CompteController {
     private final CompteService compteService;
 
     @PostMapping("/compte")
-    public ResponseEntity<com.GTI.ExericeGTI.util.ApiResponse> getCompte(@RequestBody CompteRequest request){
+    public ResponseEntity<ApiResponse> getCompte(@RequestBody CompteRequest request){
         compteService.addCompte(request);
 
-        return new ResponseEntity<com.GTI.ExericeGTI.util.ApiResponse>(
-                new com.GTI.ExericeGTI.util.ApiResponse(true,"Compte has been added succesfully"), HttpStatus.CREATED);
+        return new ResponseEntity<ApiResponse>(
+                new ApiResponse(true,"Compte has been added succesfully"), HttpStatus.CREATED);
     }
 
 

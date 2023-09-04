@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalVariables } from 'src/app/globalVariable';
 import { DemandeService } from 'src/app/service/demande.service';
 
@@ -26,10 +26,24 @@ export class DossierCreditStepComponent implements OnInit {
   uniteFlag:boolean=false;
   nbecheanceFlag:boolean=false;
 
+  consultationFlag:boolean=false;
 
-  constructor( private router: Router,private demandeCreditService:DemandeService) { }
+
+  constructor( private router: Router,
+    private demandeCreditService:DemandeService,
+    private route:ActivatedRoute) { }
 
   ngOnInit() { 
+
+    this.route.params.subscribe(
+      (params:Params)=>{        
+        if(params['id']!=null){
+          this.consultationFlag=true;
+        }
+      }
+    )
+
+
     this.typeCredit = GlobalVariables.typeCredit;
     this.unites = GlobalVariables.unites;
 

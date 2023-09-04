@@ -1,5 +1,6 @@
 package com.GTI.ExerciceGTI.service;
 
+import com.GTI.ExerciceGTI.IService.IFichierService;
 import com.GTI.ExerciceGTI.dataTransferObjects.CompteResponse;
 import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditResponse;
 import com.GTI.ExerciceGTI.dataTransferObjects.FichierRequest;
@@ -28,7 +29,7 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
-public class FichierService {
+public class FichierService implements IFichierService {
 
     private final FichierRepository fichierRepository;
     private final UtilisateurRepository utilisateurRepository;
@@ -45,14 +46,14 @@ public class FichierService {
 
         if (utilisateur.isPresent()) {
 
-        for(Fichier fichier:utilisateur.get().getFichiers()) {
-            if(Objects.equals(fichier.getNature(), nature)){
-                Fichier temp;
-                temp=fichier;
-                fichierRepository.deleteById(temp.getId());
-                break;
-            }
-        }
+           utilisateur.get().getFichiers().forEach(fichier -> {
+               if(Objects.equals(fichier.getNature(), nature)){
+                   Fichier temp;
+                   temp=fichier;
+                   fichierRepository.deleteById(temp.getId());
+               }
+           });
+
 
             // Generate a unique ID for the file
             String fileId = UUID.randomUUID().toString();;
@@ -114,7 +115,8 @@ public class FichierService {
     public List<FichierResponse> getFichiers(Integer id) {
         List<Fichier> fichiers = fichierRepository.findFichierByUserId(id);
         List<FichierResponse> fichierResponses = new ArrayList<>();
-        for(Fichier fichier : fichiers){
+
+        fichiers.forEach(fichier ->  {
             FichierResponse fichierResponse = FichierResponse.builder()
                     .fileName(fichier.getNomFichier())
                     .url(fichier.getFilePath())
@@ -126,7 +128,7 @@ public class FichierService {
                     .build();
 
             fichierResponses.add(fichierResponse);
-        }
+        });
 
         return fichierResponses;
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalVariables } from 'src/app/globalVariable';
 import { Compte } from 'src/app/interfaces/Compte';
 import { Utilisateur } from 'src/app/interfaces/Utilisateur';
@@ -34,9 +34,24 @@ export class InfoClientStepComponent implements OnInit {
   ncinIncorrectFlag:boolean=false;
   backFlag:boolean=false
 
-  constructor( private router: Router , private userService : UserService, private compteService : CompteService,private authService:AuthenticiationService,private DemandeCreditService:DemandeService) { }
+  consultationFlag:boolean=false;
+
+  constructor( private router: Router ,
+     private userService : UserService,
+      private compteService : CompteService,
+      private DemandeCreditService:DemandeService,
+      private route:ActivatedRoute) { }
 
   ngOnInit() { 
+
+    this.route.params.subscribe(
+      (params:Params)=>{        
+        if(params['id']!=null){
+          this.consultationFlag=true;
+          this.getDemandeById(params['id']);
+        }
+      }
+    )
 
     if(this.DemandeCreditService.DemandeData.ncin!=0 && this.DemandeCreditService.DemandeData.ncompte){
       this.backFlag=true;
@@ -103,8 +118,30 @@ export class InfoClientStepComponent implements OnInit {
     )
   }
 
+  getDemandeById(id:number){
+    this.DemandeCreditService.getDemandeById(id).subscribe(
+      (response:any)=>{
+        console.log(response)
+        this.DemandeCreditService.DemandeData.numDemande=response.numDemande;
+        this.DemandeCreditService.DemandeData.ncin=response.idUser;
+        this.DemandeCreditService.DemandeData.type=response.typeCredit;
+        this.DemandeCreditService.DemandeData.unite=response.unite;
+        this.DemandeCreditService.DemandeData.montant=response.montant;
+        this.DemandeCreditService.DemandeData.nbreEcheance=response.nbrEchance;
+        this.DemandeCreditService.DemandeData.garantieRequests=response.garantieRequests;
+        this.DemandeCreditService.DemandeData.ncompte=response.idcompte;
+        this.DemandeCreditService.DemandeData.observation=response.observation;
+
+        console.log(this.DemandeCreditService.DemandeData);
+      }
+    )
+  }
+
   nextPage() {
 
+    if(this.consultationFlag){
+      this.router.navigate(['main/client/dossier',this.DemandeCreditService.DemandeData.numDemande])
+    }
     if(this.nom!=null && this.ncin.toString().length===8){
       this.router.navigate(['main/client/dossier']);
       this.DemandeCreditService.DemandeData.ncin=this.ncin;
@@ -115,10 +152,10 @@ export class InfoClientStepComponent implements OnInit {
       if(this.nom==null){
         this.ncinIncorrectFlag=true;
       }
-       
     }
+
+
   }
-    
 
 }
 

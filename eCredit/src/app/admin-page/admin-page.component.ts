@@ -28,7 +28,7 @@ export class AdminPageComponent implements OnInit{
     demandeCredits: DemandeCredit[]=[];
     demandeCredit!:DemandeCredit;
 
-    constructor(private demandeService:DemandeService){
+    constructor(private demandeService:DemandeService,private router:Router){
 
     }
 
@@ -36,6 +36,9 @@ export class AdminPageComponent implements OnInit{
       this.getAllDemandeCredits();
     }
 
+    consulterDemande(id:number){
+      this.router.navigate(['main/client/info',id])
+    }
 
     getAllDemandeCredits(){
       this.demandeService.getDemandeCredits().subscribe(

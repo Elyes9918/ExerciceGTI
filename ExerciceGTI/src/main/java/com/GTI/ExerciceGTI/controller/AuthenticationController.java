@@ -3,7 +3,7 @@ package com.GTI.ExerciceGTI.controller;
 import com.GTI.ExerciceGTI.dataTransferObjects.LoginRequest;
 import com.GTI.ExerciceGTI.model.Utilisateur;
 import com.GTI.ExerciceGTI.service.UtilisateurService;
-import com.GTI.ExericeGTI.util.ApiResponse;
+import com.GTI.ExerciceGTI.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

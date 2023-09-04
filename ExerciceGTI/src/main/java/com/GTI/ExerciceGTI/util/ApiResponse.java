@@ -1,4 +1,4 @@
-package com.GTI.ExericeGTI.util;
+package com.GTI.ExerciceGTI.util;
 
 import java.time.LocalDateTime;
 

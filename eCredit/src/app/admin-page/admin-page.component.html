@@ -33,12 +33,12 @@
             
                     <th style="min-width: 10rem">
                         <div class="flex justify-content-between align-items-center">
-                            Date demande
+                            Etat
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Etat  
+                            Date Demande  
                         </div>
                     </th>
                     
@@ -51,9 +51,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-demandeCredit>
                 <tr>
-                    <td>
+                    <td class="clickable-cell" (click)="consulterDemande(demandeCredit.numDemande)">
                         {{demandeCredit.numDemande}}
                     </td>
+                    
                     <td>
                         {{demandeCredit.idDemande}}
 
@@ -66,10 +67,10 @@
                         {{ getTypeCreditLabel(demandeCredit.typeCredit) }}
                     </td>
                     <td>
-                        {{demandeCredit.dateDemande}}
+                        {{ getStatusLabel(demandeCredit.etat) }}
                     </td>
                     <td>
-                        {{ getStatusLabel(demandeCredit.etat) }}
+                        {{demandeCredit.dateDemande}}
                     </td>
                    
                     <td class="text-center">

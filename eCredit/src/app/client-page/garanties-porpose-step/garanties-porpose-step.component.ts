@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   FormArray,
   FormBuilder,
@@ -45,14 +45,31 @@ export class GarantiesPorposeStepComponent implements OnInit {
   ValidationFlag:boolean=false
   backFlag:boolean=false;
 
-  constructor( private router: Router,private formBuilder: FormBuilder, private messageService: MessageService,
-    private DemandeCreditService:DemandeService) { }
+  consultationFlag:boolean=false;
+
+  constructor( private router: Router,
+    private formBuilder: FormBuilder, 
+    private messageService: MessageService,
+    private DemandeCreditService:DemandeService,
+    private route:ActivatedRoute
+    ) { }
 
   get garantiesDetails(): FormArray {
     return this.userForm.get("garantiesDetails") as FormArray;
   }
 
   ngOnInit() { 
+
+    this.route.params.subscribe(
+      (params:Params)=>{        
+        if(params['id']!=null){
+          this.consultationFlag=true;
+        }
+      }
+    )
+
+    
+
 
     this.typeGaranties = GlobalVariables.typeGaranties;
     this.natureGaranties = GlobalVariables.garanties;
@@ -66,6 +83,9 @@ export class GarantiesPorposeStepComponent implements OnInit {
 
     if(this.DemandeCreditService.DemandeData.garantieRequests.length===0){
       this.populateData(this.initialValues);
+    }else if(this.consultationFlag===true){
+      console.log(this.DemandeCreditService.DemandeData.garantieRequests)
+      this.populateData(this.DemandeCreditService.DemandeData.garantieRequests)
     }else{
       this.backFlag=true;
       this.populateData(this.processInitialData(this.DemandeCreditService.DemandeData.garantieRequests));

@@ -6,6 +6,7 @@ import com.GTI.ExerciceGTI.service.CompteService;
 import com.GTI.ExerciceGTI.service.DemandeCreditService;
 import com.GTI.ExerciceGTI.service.FichierService;
 import com.GTI.ExerciceGTI.service.UtilisateurService;
+import com.GTI.ExerciceGTI.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,11 @@ public class UserController {
 
 
     @PostMapping("/user")
-    public ResponseEntity<com.GTI.ExericeGTI.util.ApiResponse> addUser(@RequestBody UtilisateurRequest request){
+    public ResponseEntity<ApiResponse> addUser(@RequestBody UtilisateurRequest request){
         utilisateurService.SignUp(request);
 
-        return new ResponseEntity<com.GTI.ExericeGTI.util.ApiResponse>(
-                new com.GTI.ExericeGTI.util.ApiResponse(true,"User has been added succesfully"), HttpStatus.CREATED);
+        return new ResponseEntity<ApiResponse>(
+                new ApiResponse(true,"User has been added succesfully"), HttpStatus.CREATED);
     }
 
     @GetMapping("/user/{id}")

@@ -1,6 +1,7 @@
 package com.GTI.ExerciceGTI.controller;
 
 
+import com.GTI.ExerciceGTI.dataTransferObjects.CompteResponse;
 import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditRequest;
 import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditResponse;
 import com.GTI.ExerciceGTI.model.DemandeCredit;
@@ -9,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.GTI.ExericeGTI.util.ApiResponse;
+import com.GTI.ExerciceGTI.util.ApiResponse;
 
 
 import java.util.List;
@@ -43,6 +44,11 @@ public class DemandeController {
         return new ResponseEntity<ApiResponse>(new ApiResponse(true,"product Updated"),HttpStatus.OK);
     }
 
+    @GetMapping("/demandeCredit/{id}")
+    public ResponseEntity<DemandeCreditResponse>  getCompte(@PathVariable("id") Integer id){
+        DemandeCreditResponse body = demandeCreditService.getDemandeCredit(id);
+        return new ResponseEntity<DemandeCreditResponse>(body,HttpStatus.OK);
+    }
 
 
 

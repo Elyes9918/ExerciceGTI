@@ -1,5 +1,6 @@
 package com.GTI.ExerciceGTI.service;
 
+import com.GTI.ExerciceGTI.IService.ICompteService;
 import com.GTI.ExerciceGTI.dataTransferObjects.CompteRequest;
 import com.GTI.ExerciceGTI.dataTransferObjects.CompteResponse;
 import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditResponse;
@@ -18,11 +19,10 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class CompteService {
+public class CompteService implements ICompteService {
 
     private final CompteRepository compteRepository;
     private final UtilisateurRepository utilisateurRepository;
-
 
     public void addCompte(CompteRequest request){
 
@@ -42,7 +42,8 @@ public class CompteService {
 
         List<Compte> comptes = compteRepository.findComptesByUserId(id);
         List<CompteResponse> compteResponses = new ArrayList<>();
-        for(Compte compte : comptes){
+
+        comptes.stream().forEach(compte -> {
             CompteResponse compteResponse = CompteResponse.builder()
                     .nCompte(compte.getNCompte())
                     .devise(compte.getDevise())
@@ -50,7 +51,7 @@ public class CompteService {
                     .build();
 
             compteResponses.add(compteResponse);
-        }
+        });
 
         return compteResponses;
     }

@@ -16,6 +16,7 @@ export class DemandeService {
   constructor(private http:HttpClient) {
 
     this.DemandeData = {
+      numDemande:0,
       ncin: 0, // Initialize with default values or appropriate values
       ncompte: 0,
       type: 0,
@@ -41,6 +42,13 @@ export class DemandeService {
         })
       );
   }
+
+  getDemandeById(id:number){
+    return this.http.get(`${this.apiUrl}/demandeCredit/${id}`).pipe(
+      
+    )
+  }
+
 
   
   getDemandeCredits():Observable<DemandeCredit[]>{

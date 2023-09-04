@@ -3,14 +3,16 @@
         <ng-template pTemplate="title">
             Demande de crédit
         </ng-template>
+        
         <ng-template pTemplate="subtitle">
-            Entrez vos informations
+           <ng-container *ngIf="!consultationFlag">Entrez vos informations</ng-container>
+           <ng-container *ngIf="consultationFlag">Consultation</ng-container>
         </ng-template>
         <ng-template pTemplate="content">
             <div class="p-fluid formgrid grid">
                 <div class="field col-4">
                     <label for="class">N° CIN</label>
-                    <input type="number" required pInputText [(ngModel)]="ncin" (input)="populateFields()" name="ncin1" [disabled]="disableNcinField" 
+                    <input type="number" required pInputText [(ngModel)]="ncin" (input)="populateFields()" name="ncin1" [disabled]="disableNcinField || consultationFlag" 
                     [ngClass]="{'ng-dirty': ncinField8digitsFlag || ncinIncorrectFlag}">
                     <small class="p-error" *ngIf="ncinField8digitsFlag">Le champ numéro CIN doit contenir 8 chiffres</small>
                     <small class="p-error" *ngIf="ncinField8digitsFlag && ncinIncorrectFlag">  -   </small>
@@ -29,7 +31,8 @@
 
                 <div class="field col-12 md:col-5">
                     <label for="class">N° du compte</label>
-                    <p-dropdown inputId="class" [(ngModel)]="compte" [options]="comptes" (onChange)="setCompteNumber($event)" optionLabel="ncompte"></p-dropdown>
+                    <p-dropdown inputId="class" [(ngModel)]="compte" [options]="comptes" (onChange)="setCompteNumber($event)" optionLabel="ncompte"
+                    [disabled]="consultationFlag"></p-dropdown>
                 </div>
 
                <div class="field col-1">
@@ -39,17 +42,17 @@
 
                 <div class="field col-12 md:col-6">           
                     <label for="accountType1">Date d'ouverture compte</label>
-                    <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="dateouv"  ></p-calendar>
+                    <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="dateouv"  [disabled]="consultationFlag"></p-calendar>
                 </div>
 
                 <div class="field col-12 md:col-6">           
                     <label for="accountType1">Date de naissance</label>
-                    <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="datenaiss" ></p-calendar>
+                    <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="datenaiss" [disabled]="consultationFlag"></p-calendar>
                 </div>
 
                 <div class="field col-6">
                     <label for="class">Situation Familiale</label>
-                    <input type="text" required pInputText [(ngModel)]="sfamiliale" name="cardName" > 
+                    <input type="text" required pInputText [(ngModel)]="sfamiliale" name="cardName" [disabled]="consultationFlag"> 
                 </div>
                 
                 
