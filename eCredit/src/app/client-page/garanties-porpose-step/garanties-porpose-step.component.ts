@@ -43,6 +43,7 @@ export class GarantiesPorposeStepComponent implements OnInit {
 
   areGarantiesSubmited:boolean=false;
   ValidationFlag:boolean=false
+  backFlag:boolean=false;
 
   constructor( private router: Router,private formBuilder: FormBuilder, private messageService: MessageService,
     private DemandeCreditService:DemandeService) { }
@@ -61,11 +62,13 @@ export class GarantiesPorposeStepComponent implements OnInit {
       garantiesDetails: this.formBuilder.array([]),
     });
 
+    // console.log(this.processInitialData(this.DemandeCreditService.DemandeData.garantieRequests));
+
     if(this.DemandeCreditService.DemandeData.garantieRequests.length===0){
       this.populateData(this.initialValues);
     }else{
+      this.backFlag=true;
       this.populateData(this.processInitialData(this.DemandeCreditService.DemandeData.garantieRequests));
-      console.log(this.DemandeCreditService.DemandeData.garantieRequests)
     }
   }
 
@@ -118,7 +121,6 @@ export class GarantiesPorposeStepComponent implements OnInit {
   } 
 
   AllFieldsAreNotEmpty(data:any):boolean{
-
     for (const obj of data) {
       if (
         obj.natureGarantie === undefined ||
@@ -226,7 +228,11 @@ export class GarantiesPorposeStepComponent implements OnInit {
   }
 
   prevPage() {
+    if(this.backFlag){
+      this.onSubmit()
+    }
       this.router.navigate(['main/client/dossier']);
+
   }
 }
 

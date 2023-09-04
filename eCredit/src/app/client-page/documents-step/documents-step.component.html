@@ -4,18 +4,20 @@
             Demande de crédit
         </ng-template>
         <ng-template pTemplate="subtitle">
-            Entrez vos informations
+            Entrez vos informations 
+            
         </ng-template>
+        <p><small class="p-error" *ngIf="validationFlag">Tous les documents nécessaires doit être fourni. </small></p>
         <ng-template pTemplate="content">
             <div class="p-fluid formgrid grid">
                 
                 <ng-container *ngFor="let item of tableToItereate; let i = index" class="credit-auto-block">
                     <div class="field col-11">
-                        <h6 for="class">{{ item }}*  
-                            <span *ngIf="fileUploadStatus[i]" class="download-link" (click)="download(item)">Aperçu</span>
+                        <h6 for="class">{{ item.label }} <ng-container *ngIf="item.obligation===true"> * </ng-container>  
+                            <span *ngIf="fileUploadStatus[i]" class="download-link" (click)="download(item.label)">Aperçu</span>
                         
                         </h6>
-                        <p-fileUpload  name="file[]" [customUpload]="true" (uploadHandler)="onUploadBP($event,item,i)"
+                        <p-fileUpload  name="file[]" [customUpload]="true" (uploadHandler)="onUploadBP($event,item.label,i)"
                             [multiple]="false"  [maxFileSize]="4000000"  >
                             <ng-template pTemplate="content">
                                 <ul *ngIf="uploadedFiles.length">

@@ -13,13 +13,25 @@ import { DemandeService } from 'src/app/service/demande.service';
 })
 export class DocumentsStepComponent implements OnInit {
 
-  CreditPersonnel: string[] = ["CIN", "Bulletin de paie"];
-  CreditAuto: string[] = ["CIN", "Permis", "Bulletin de paie"];
-  CreditTravaux: string[] = ["CIN", "Copie de patente"];
+  CreditPersonnel: {label:string,obligation:boolean}[] = [
+    {label:"CIN",obligation:true},
+    {label:"Bulletin de paie",obligation:true}
+  ];
+
+  CreditAuto: {label:string,obligation:boolean}[] =[
+    {label:"CIN",obligation:true},
+    {label:"Permis",obligation:false},
+    {label:"Bulletin de paie",obligation:true}
+  ];
+
+  CreditTravaux: {label:string,obligation:boolean}[] =[
+    {label:"CIN",obligation:true},
+    {label:"Copie de patente",obligation:true}
+  ];
 
   typesDocuments: { label: string; value: string }[] = [
     { label: 'CIN', value: "1" },
-    { label: 'Permis', value: "2" },
+    { label: 'Permis', value: "2"},
     { label: 'Copie de patente', value: "3" },
     { label: 'Bulletin de paie', value: "4" },
   ];
@@ -31,10 +43,9 @@ export class DocumentsStepComponent implements OnInit {
   uploadedFiles: any[] = [];
   fichiers!: any[];
 
+  validationFlag:boolean=false;
 
   typeCredit:number=this.DemandeCreditService?.DemandeData?.type;
-
-
 
   constructor( private router: Router,private fichierService:FichierService,private DemandeCreditService:DemandeService) { }
 
@@ -62,7 +73,7 @@ export class DocumentsStepComponent implements OnInit {
     }
 
     this.tableToItereate.forEach((item, i) => {
-      this.checkIfDocumentsExists(item, i);
+      this.checkIfDocumentsExists(item.label, i);
     });
 
   }
@@ -70,7 +81,6 @@ export class DocumentsStepComponent implements OnInit {
   checkIfDocumentsExists(natureDocument:string,i:number):void{
     const document = this.typesDocuments.find(item => item.label === natureDocument);
     const nature = document?.value || '';
-    // const itemExists = this.fichiers.some(fichier => fichier?.nature === nature);
 
     let itemExists = false;
 
@@ -85,10 +95,27 @@ export class DocumentsStepComponent implements OnInit {
     this.fileUploadStatus[i] = itemExists;
   }
 
+
+  areAllRequiredDocsUploaded(table: { label: string; obligation: boolean }[], fileUploadStatus: boolean[]): boolean {
+    for (let i = 0; i < table.length; i++) {
+      const doc = table[i];
+      // Check if the document is required 
+      if (doc.obligation) {
+        // Check if the corresponding file is uploaded
+        if (!fileUploadStatus[i]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  
+
   onUploadBP(event: any,natureDocument:string,i:number) {
 
     const document = this.typesDocuments.find(item => item.label === natureDocument);
     const nature = document?.value || '';
+    console.log(nature);
 
     for (const file of event.files) {
       this.fichierService.upload(file,this.DemandeCreditService?.DemandeData?.ncin.toString(),nature).subscribe(
@@ -114,7 +141,13 @@ export class DocumentsStepComponent implements OnInit {
 
  
   nextPage() {
-    this.router.navigate(['main/client/observation']);
+    // I need to check that all documents which have obligation true have also status uploaded true
+    if(this.areAllRequiredDocsUploaded(this.tableToItereate,this.fileUploadStatus)){
+      this.router.navigate(['main/client/observation']);
+    }else{
+      this.validationFlag=true;
+    }
+    
   }
 
   prevPage() {

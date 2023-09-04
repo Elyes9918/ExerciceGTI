@@ -42,12 +42,6 @@ public class FichierController {
                     .body("File size exceeds 4MB");
         }
 
-        // Check file type
-       /* if (!file.getContentType().equals(MediaType.APPLICATION_PDF_VALUE)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Only PDF files are allowed");
-        }*/
-
         String uploadedfile = fichierService.uploadFile(file,Integer.parseInt(idUser),Integer.parseInt(nature));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadedfile);
