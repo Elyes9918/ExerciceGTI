@@ -35,7 +35,7 @@
                                   </p-autoComplete>
                                 </td>
 
-                                <td> 
+                                <td>  
                                   <p-autoComplete appendTo="body"  formControlName="typeGarantie" [suggestions]="filteredTypes" (completeMethod)="filterType($event)" field="label" [dropdown]="true"
                                   placeholder="Choisir" >
                                   </p-autoComplete>
@@ -47,11 +47,13 @@
 
                                 <td><p-autoComplete appendTo="body" formControlName="devise" [suggestions]="filteredDevises" (completeMethod)="filterDevise($event)" field="label" [dropdown]="true"
                                     placeholder="Choisir" ></p-autoComplete>
-                                  </td>
+                                </td>
                                   
                               </tr>
                             </ng-template>
                           </p-table>
+                          <small class="p-error" *ngIf="ValidationFlag"  >Tous les champs sont requis.</small>
+
                         </div>
                       </form>
                       <div style="margin-top: 20px;">
@@ -67,15 +69,13 @@
                   </div>
                   <p-toast [style]="{marginTop: '80px'}"></p-toast>
                   <div>
-                  </div>
-
-                
+                  </div>                
             </div>
         </ng-template>
         <ng-template pTemplate="footer">
             <div class="grid grid-nogutter justify-content-end">
                 <p-button label="Back" (onClick)="prevPage()" icon="pi pi-angle-left" [style]="{ 'margin-right': '30px' }"></p-button>
-                <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right" [disabled]="!areGarantiesSubmited"></p-button>
+                <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right" [disabled]="!(areGarantiesSubmited && ValidationFlag===false)"></p-button>
             </div>
         </ng-template>
     </p-card>

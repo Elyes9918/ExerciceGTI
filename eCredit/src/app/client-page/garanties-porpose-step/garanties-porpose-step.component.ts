@@ -42,8 +42,7 @@ export class GarantiesPorposeStepComponent implements OnInit {
   valSwitch!:Boolean
 
   areGarantiesSubmited:boolean=false;
-
-
+  ValidationFlag:boolean=false
 
   constructor( private router: Router,private formBuilder: FormBuilder, private messageService: MessageService,
     private DemandeCreditService:DemandeService) { }
@@ -61,8 +60,24 @@ export class GarantiesPorposeStepComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       garantiesDetails: this.formBuilder.array([]),
     });
-    this.populateData();
+
+    if(this.DemandeCreditService.DemandeData.garantieRequests.length===0){
+      this.populateData(this.initialValues);
+    }else{
+      this.populateData(this.processInitialData(this.DemandeCreditService.DemandeData.garantieRequests));
+      console.log(this.DemandeCreditService.DemandeData.garantieRequests)
+    }
   }
+
+  processInitialData(data: any[]): any[] {
+    for (const obj of data) {
+      obj.natureGarantie = this.natureGaranties.find((item)=>item.value===obj.natureGarantie);
+      obj.typeGarantie = this.typeGaranties.find((item)=>item.value===obj.typeGarantie);
+      obj.devise = this.devises.find((item)=>item.value===obj.devise);
+    }
+    return data;
+  }
+
 
   onAdd() {
     this.userForm.markAllAsTouched();
@@ -92,9 +107,31 @@ export class GarantiesPorposeStepComponent implements OnInit {
  
 
   onSubmit() {
-    this.DemandeCreditService.DemandeData.garantieRequests=this.processGaranties(this.garantiesDetails.value);
-    this.areGarantiesSubmited=true;
+
+    if(this.AllFieldsAreNotEmpty(this.processGaranties(this.garantiesDetails.value))){
+      this.ValidationFlag=false;
+      this.areGarantiesSubmited=true;
+      this.DemandeCreditService.DemandeData.garantieRequests=this.processGaranties(this.garantiesDetails.value);     
+    }else{
+      this.ValidationFlag=true;
+    }
+  } 
+
+  AllFieldsAreNotEmpty(data:any):boolean{
+
+    for (const obj of data) {
+      if (
+        obj.natureGarantie === undefined ||
+        obj.typeGarantie === undefined ||
+        obj.valeur === null ||
+        obj.devise === undefined
+      ) {
+        return false;
+      }
+    }
+    return true;
   }
+
 
   processGaranties(garantiesJson: any[]): any[] {
     // Iterate through each object in the array
@@ -104,7 +141,6 @@ export class GarantiesPorposeStepComponent implements OnInit {
       const typeGarantie = garantie.typeGarantie.value;
       const devise = garantie.devise.value;
   
-      // Create a new object with extracted values and the untouched "valeur" property
       return {
         natureGarantie,
         typeGarantie,
@@ -140,8 +176,8 @@ export class GarantiesPorposeStepComponent implements OnInit {
   /**
    * Populate data into Form
    */
-  private populateData() {
-    this.initialValues.forEach((data, index) => {
+  private populateData(initialData:any) {
+    initialData.forEach((data:any, index:any) => {
       this.onAdd();
       this.garantiesDetails.controls[index].setValue(data);
     });

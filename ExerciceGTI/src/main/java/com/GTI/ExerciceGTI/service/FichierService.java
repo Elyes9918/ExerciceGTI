@@ -34,8 +34,8 @@ public class FichierService {
     private final UtilisateurRepository utilisateurRepository;
 
 
-   // private final String path_fichier="/Users/BOUALLEGUE.Elyes/Desktop/Files/";
-   private final String path_fichier="/Users/Elyes/OneDrive/Desktop/Files/";
+   private final String path_fichier="/Users/BOUALLEGUE.Elyes/Desktop/Files/";
+   //private final String path_fichier="/Users/Elyes/OneDrive/Desktop/Files/";
 
 
     public String uploadFile(MultipartFile file, Integer nCin, Integer nature) throws IOException {

@@ -10,7 +10,11 @@
             <div class="p-fluid formgrid grid">
                 <div class="field col-4">
                     <label for="class">N° CIN</label>
-                    <input type="number" required pInputText [(ngModel)]="ncin" (input)="populateFields()" name="ncin1" [disabled]="disableNcinField" >
+                    <input type="number" required pInputText [(ngModel)]="ncin" (input)="populateFields()" name="ncin1" [disabled]="disableNcinField" 
+                    [ngClass]="{'ng-dirty': ncinField8digitsFlag || ncinIncorrectFlag}">
+                    <small class="p-error" *ngIf="ncinField8digitsFlag">Le champ numéro CIN doit contenir 8 chiffres</small>
+                    <small class="p-error" *ngIf="ncinField8digitsFlag && ncinIncorrectFlag">  -   </small>
+                    <small class="p-error" *ngIf="ncinIncorrectFlag">Le CIN fourni est invalide</small>
 
                 </div>
                 <div class="field col-4">

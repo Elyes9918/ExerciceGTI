@@ -14,6 +14,9 @@ export class ObservationStepComponent implements OnInit {
   constructor( private router: Router,private DemandeCreditService:DemandeService) { }
 
   ngOnInit() { 
+    if(this.DemandeCreditService.DemandeData.observation!=""){
+      this.observation=this.DemandeCreditService.DemandeData.observation;
+    }
   }
 
   nextPage() {

@@ -46,6 +46,7 @@ public class DemandeCreditService {
 
         demandeCredit = demandeCreditRepository.save(demandeCredit);
 
+
         for(GarantieRequest garantieRequest:request.getGarantieRequests()){
             garantieService.addGarantie(garantieRequest,demandeCredit);
         }

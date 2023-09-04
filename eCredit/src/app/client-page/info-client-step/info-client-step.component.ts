@@ -16,7 +16,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class InfoClientStepComponent implements OnInit {
 
-  ncin!:number;
+  ncin:number=0;
   nom!:string;
   prenom!:string;
   ncompte!:string;
@@ -30,11 +30,19 @@ export class InfoClientStepComponent implements OnInit {
   compte!:Compte;
 
   disableNcinField:boolean=false;
-  nCinIsIncorrect:boolean=true;
+  ncinField8digitsFlag:boolean=false;
+  ncinIncorrectFlag:boolean=false;
+  backFlag:boolean=false
 
   constructor( private router: Router , private userService : UserService, private compteService : CompteService,private authService:AuthenticiationService,private DemandeCreditService:DemandeService) { }
 
   ngOnInit() { 
+
+    if(this.DemandeCreditService.DemandeData.ncin!=0 && this.DemandeCreditService.DemandeData.ncompte){
+      this.backFlag=true;
+      this.getUserById(this.DemandeCreditService.DemandeData.ncin);
+      this.getAllComptesByIdUser(this.DemandeCreditService.DemandeData.ncin)
+    }
   }
 
   populateFields(){
@@ -55,6 +63,9 @@ export class InfoClientStepComponent implements OnInit {
     this.userService.getUserById(id).subscribe(
       (response:any)=>{
         this.disableNcinField=true;
+        this.ncinIncorrectFlag=false;
+        this.ncinField8digitsFlag=false;
+
         this.user=response;
         this.ncin = this.user.ncin;
         this.nom=this.user.nom;
@@ -84,17 +95,30 @@ export class InfoClientStepComponent implements OnInit {
           const firstCompteId = this.comptes[0].ncompte;
           this.getCompteById(firstCompteId);
         }
+        if(this.backFlag){
+          this.getCompteById(this.DemandeCreditService.DemandeData.ncompte);
+        }
 
       }
     )
   }
 
   nextPage() {
-    this.router.navigate(['main/client/dossier']);
-    this.DemandeCreditService.DemandeData.ncin=this.ncin;
-    this.DemandeCreditService.DemandeData.ncompte= Number.isNaN(Number(this.ncompte)) ?
-    Number(this.comptes[0].ncompte) : Number(this.ncompte);  
+
+    if(this.nom!=null && this.ncin.toString().length===8){
+      this.router.navigate(['main/client/dossier']);
+      this.DemandeCreditService.DemandeData.ncin=this.ncin;
+      this.DemandeCreditService.DemandeData.ncompte= Number.isNaN(Number(this.ncompte)) ?
+      Number(this.comptes[0].ncompte) : Number(this.ncompte);  
+    }else{
+      this.ncin.toString().length!=8 ? this.ncinField8digitsFlag=true : this.ncinField8digitsFlag=false;
+      if(this.nom==null){
+        this.ncinIncorrectFlag=true;
+      }
+       
+    }
   }
+    
 
 }
 

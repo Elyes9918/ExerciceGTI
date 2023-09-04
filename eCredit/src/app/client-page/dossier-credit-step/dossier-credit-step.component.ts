@@ -21,11 +21,25 @@ export class DossierCreditStepComponent implements OnInit {
   unite!:any;
   nbecheance!:String;
 
+  creditFlag:boolean=false;
+  montantFlag:boolean=false;
+  uniteFlag:boolean=false;
+  nbecheanceFlag:boolean=false;
+
+
   constructor( private router: Router,private demandeCreditService:DemandeService) { }
 
   ngOnInit() { 
     this.typeCredit = GlobalVariables.typeCredit;
     this.unites = GlobalVariables.unites;
+
+    if(this.demandeCreditService.DemandeData.type!=0){
+      this.credit=this.typeCredit.find((item)=>item.value===this.demandeCreditService.DemandeData.type);
+      this.montant=this.demandeCreditService.DemandeData.type.toString();
+      this.unite=this.unites.find((item)=>item.value===this.demandeCreditService.DemandeData.unite);
+      this.nbecheance=this.demandeCreditService.DemandeData.nbreEcheance.toString();
+
+    }
 
   }
 
@@ -66,19 +80,18 @@ export class DossierCreditStepComponent implements OnInit {
   }
 
   nextPage() {
-    this.router.navigate(['main/client/garantie']);
-
-    this.demandeCreditService.DemandeData.type=this.credit.value;
-    this.demandeCreditService.DemandeData.montant=Number(this.montant);
-    this.demandeCreditService.DemandeData.unite=this.unite.value;
-    this.demandeCreditService.DemandeData.nbreEcheance=Number(this.nbecheance);
-
-    // const dossierCredit = {
-    //   credit: this.credit.value,
-    //   montant: this.montant,
-    //   unite: this.unite.value,
-    //   nbecheance: this.nbecheance,
-    // };
+    if(this.credit!=undefined && this.montant!=undefined && this.unite!=undefined && this.nbecheance!=undefined){
+      this.router.navigate(['main/client/garantie']);
+      this.demandeCreditService.DemandeData.type=this.credit.value;
+      this.demandeCreditService.DemandeData.montant=Number(this.montant);
+      this.demandeCreditService.DemandeData.unite=this.unite.value;
+      this.demandeCreditService.DemandeData.nbreEcheance=Number(this.nbecheance);
+    }else{
+      this.credit===undefined ? this.creditFlag = true : this.creditFlag = false
+      this.montant===undefined? this.montantFlag = true : this.montantFlag = false
+      this.unite===undefined? this.uniteFlag = true : this.uniteFlag = false
+      this.nbecheance===undefined ?this.nbecheanceFlag = true : this.nbecheanceFlag = false
+    }
   }
 
   prevPage() {
