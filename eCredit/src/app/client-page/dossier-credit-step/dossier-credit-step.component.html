@@ -13,7 +13,7 @@
                 <div class="field col-12 md:col-6">
                     <label for="class">Type crédit</label>
                     <p-autoComplete [(ngModel)]="credit" [suggestions]="filteredTypeCredit" (completeMethod)="filterTypeCredit($event)" field="label" [dropdown]="true"
-                    placeholder="Choisir" [ngClass]="{'ng-dirty':creditFlag}" >
+                    placeholder="Choisir" [ngClass]="{'ng-dirty':creditFlag}" (onSelect)="CalculeNbreEcheance(this.credit.label,this.unite.label)" >
                     </p-autoComplete>
                     <small class="p-error" *ngIf="creditFlag">Champs requis.</small>
                 </div>
@@ -27,14 +27,14 @@
                 <div class="field col-12 md:col-6">
                     <label for="class">Unité</label>
                     <p-autoComplete [(ngModel)]="unite" [suggestions]="filteredUnites" (completeMethod)="filterUnite($event)" field="label" [dropdown]="true"
-                    placeholder="Choisir" >
+                    placeholder="Choisir" (onSelect)="CalculeNbreEcheance(this.credit.label,this.unite.label)" >
                     </p-autoComplete>
                     <small class="p-error" *ngIf="uniteFlag">Champs requis.</small>
                 </div>
 
                 <div class="field col-6">
                     <label for="class">Nbre échéance</label>
-                    <p-inputNumber mode="decimal" [(ngModel)]="nbecheance" [showButtons]="true" [min]="0" ></p-inputNumber>
+                    <p-inputNumber mode="decimal" [(ngModel)]="nbecheance" [showButtons]="true" [min]="0"  [max]="maxEcheance"></p-inputNumber>
                     <small class="p-error" *ngIf="nbecheanceFlag">Champs requis.</small>
                 </div>
 

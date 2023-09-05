@@ -31,6 +31,7 @@ public class DemandeCredit {
     private Integer nbreEcheance;
     private Integer montant;
     private Integer ncompte;
+    private double taux;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -40,4 +41,8 @@ public class DemandeCredit {
     @OneToMany(mappedBy = "demandeCredit", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Garantie> garanties;
+
+    @OneToMany(mappedBy = "demandeCredit", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Echeance> echeances;
 }

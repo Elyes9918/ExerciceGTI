@@ -20,6 +20,7 @@ public class DemandeCreditRequest {
     private Integer unite;
     private Integer nbreEcheance;
     private Integer montant;
+    private double taux;
     private List<GarantieRequest> garantieRequests;
 
 }

@@ -29,6 +29,7 @@ export class DemandeService {
       unite: 0,
       nbreEcheance: 0,
       observation: "",
+      taux:0,
       garantieRequests: [],
     };
    }

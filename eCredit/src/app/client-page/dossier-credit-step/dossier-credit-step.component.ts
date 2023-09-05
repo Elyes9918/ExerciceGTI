@@ -28,6 +28,8 @@ export class DossierCreditStepComponent implements OnInit {
 
   consultationFlag:boolean=false;
 
+  maxEcheance:number=144;
+
 
   constructor( private router: Router,
     private demandeCreditService:DemandeService,
@@ -50,6 +52,16 @@ export class DossierCreditStepComponent implements OnInit {
       this.getInformationFormCreditService()
     }
 
+  }
+
+  // CalculeNbreEcheance(this.credit.label,this.unite.label);
+  CalculeNbreEcheance(labelCredit:string,labelUnite:string){
+    if(labelCredit!=null && labelUnite!=null){
+      const periodeMax =this.typeCredit.find((item)=>item.label===labelCredit).periodeMax;
+      const unite = this.unites.find((item)=>item.label===labelUnite).nbrMois;
+      console.log(periodeMax*unite);
+      this.nbecheance = (periodeMax*unite).toString();
+    }
   }
 
   getDemandeById(id:number){
@@ -120,6 +132,7 @@ export class DossierCreditStepComponent implements OnInit {
         this.demandeCreditService.DemandeData.montant=Number(this.montant);
         this.demandeCreditService.DemandeData.unite=this.unite.value;
         this.demandeCreditService.DemandeData.nbreEcheance=Number(this.nbecheance);
+        this.demandeCreditService.DemandeData.taux=this.typeCredit.find((item)=>item.value===this.credit.value).taux;
       }else{
         this.credit===undefined ? this.creditFlag = true : this.creditFlag = false
         this.montant===undefined? this.montantFlag = true : this.montantFlag = false

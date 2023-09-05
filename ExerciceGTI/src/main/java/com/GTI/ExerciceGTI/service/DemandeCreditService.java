@@ -64,6 +64,7 @@ public class DemandeCreditService implements IDemandeCreditService {
                 .nbreEcheance(request.getNbreEcheance())
                 .ncompte(request.getNcompte())
                 .utilisateur(utilisateur.get())
+                .taux(request.getTaux())
                 .build();
 
         demandeCredit = demandeCreditRepository.save(demandeCredit);
