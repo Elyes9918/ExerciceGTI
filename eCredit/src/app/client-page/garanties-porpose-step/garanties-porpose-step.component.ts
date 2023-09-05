@@ -34,7 +34,6 @@ export class GarantiesPorposeStepComponent implements OnInit {
 
   protected data : any;
 
-
   selectedGaranties: any = [];
 
   userForm!: FormGroup;
@@ -60,17 +59,6 @@ export class GarantiesPorposeStepComponent implements OnInit {
 
   ngOnInit() { 
 
-    this.route.params.subscribe(
-      (params:Params)=>{        
-        if(params['id']!=null){
-          this.consultationFlag=true;
-        }
-      }
-    )
-
-    
-
-
     this.typeGaranties = GlobalVariables.typeGaranties;
     this.natureGaranties = GlobalVariables.garanties;
     this.devises = GlobalVariables.devise;
@@ -79,26 +67,78 @@ export class GarantiesPorposeStepComponent implements OnInit {
       garantiesDetails: this.formBuilder.array([]),
     });
 
-    // console.log(this.processInitialData(this.DemandeCreditService.DemandeData.garantieRequests));
 
-    if(this.DemandeCreditService.DemandeData.garantieRequests.length===0){
-      this.populateData(this.initialValues);
-    }else if(this.consultationFlag===true){
-      console.log(this.DemandeCreditService.DemandeData.garantieRequests)
-      this.populateData(this.DemandeCreditService.DemandeData.garantieRequests)
-    }else{
-      this.backFlag=true;
-      this.populateData(this.processInitialData(this.DemandeCreditService.DemandeData.garantieRequests));
+    this.route.params.subscribe(
+      (params:Params)=>{        
+        if(params['id']!=null){
+          this.consultationFlag=true;
+          this.getDemandeById(params['id']);
+        }
+      }
+    )
+
+
+    if(!this.consultationFlag){
+  
+      if(this.DemandeCreditService.DemandeData.garantieRequests.length===0){
+        this.populateData(this.initialValues);
+      }else{
+        this.backFlag=true;
+        this.populateData(this.processInitialData(this.DemandeCreditService.DemandeData.garantieRequests));
+      }
+
     }
+
+  }
+
+  getDemandeById(id:number){
+    this.DemandeCreditService.getDemandeById(id).subscribe(
+      (response:any)=>{
+        this.populateData(this.processInitialData(this.transformArray(this.DemandeCreditService.DemandeData.garantieRequests)))
+      }
+    )
+  }
+
+  transformArray(originalArray: any[]): any[] {
+    return originalArray.map((originalObject) => {
+      const {
+        devise=originalObject.devise,
+        natureGarantie=originalObject.nature,
+        typeGarantie=originalObject.type,
+        valeur=originalObject.valeur,
+      } = originalObject;
+  
+      return {
+        devise,
+        natureGarantie,
+        typeGarantie,
+        valeur,
+      };
+    });
   }
 
   processInitialData(data: any[]): any[] {
-    for (const obj of data) {
-      obj.natureGarantie = this.natureGaranties.find((item)=>item.value===obj.natureGarantie);
-      obj.typeGarantie = this.typeGaranties.find((item)=>item.value===obj.typeGarantie);
-      obj.devise = this.devises.find((item)=>item.value===obj.devise);
+
+    if(this.consultationFlag){
+
+      for (const obj of data) {
+        obj.natureGarantie = this.natureGaranties.find((item)=>item.value===obj.natureGarantie);
+        obj.typeGarantie = this.typeGaranties.find((item)=>item.value===obj.typeGarantie);
+        obj.devise = this.devises.find((item)=>item.value===obj.devise);
+      }
+      return data;
+
+    }else{
+
+      for (const obj of data) {
+        obj.natureGarantie = this.natureGaranties.find((item)=>item.value===obj.natureGarantie);
+        obj.typeGarantie = this.typeGaranties.find((item)=>item.value===obj.typeGarantie);
+        obj.devise = this.devises.find((item)=>item.value===obj.devise);
+      }
+      return data;
+
     }
-    return data;
+    
   }
 
 
@@ -241,17 +281,31 @@ export class GarantiesPorposeStepComponent implements OnInit {
     this.filteredDevises = filtered;
   }
 
-
+  backToAdmin(){
+    this.router.navigate(['main/admin']);
+    this.DemandeCreditService.InitiliazeDemandeData();
+  }
 
   nextPage() {
-    this.router.navigate(['main/client/documents']);
+
+    if(this.consultationFlag){
+      this.router.navigate(['main/client/documents',this.DemandeCreditService.DemandeData.numDemande])
+    }else{
+      this.router.navigate(['main/client/documents']);
+    }
   }
 
   prevPage() {
-    if(this.backFlag){
+    if(this.consultationFlag){
+      this.router.navigate(['main/client/dossier',this.DemandeCreditService.DemandeData.numDemande]);
+    }else{
+      if(this.backFlag){
       this.onSubmit()
     }
       this.router.navigate(['main/client/dossier']);
+
+    }
+    
 
   }
 }

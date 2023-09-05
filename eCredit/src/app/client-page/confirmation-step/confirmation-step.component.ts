@@ -20,7 +20,6 @@ export class ConfirmationStepComponent implements OnInit {
   submit(){
     this.DemandeCreditService.saveDemandeCredit(this.DemandeCreditService?.DemandeData).subscribe(
       (response:any)=>{
-        console.log(response)
         this.messageService.add({
           severity: "success",
           detail: "Demande submited successfully",

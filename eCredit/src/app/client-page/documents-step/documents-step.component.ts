@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FichierService } from '../../service/fichier.service';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
@@ -47,10 +47,35 @@ export class DocumentsStepComponent implements OnInit {
 
   typeCredit:number=this.DemandeCreditService?.DemandeData?.type;
 
-  constructor( private router: Router,private fichierService:FichierService,private DemandeCreditService:DemandeService) { }
+  consultationFlag:boolean=false;
+
+
+  constructor( private router: Router,
+    private fichierService:FichierService,
+    private DemandeCreditService:DemandeService,
+    private route:ActivatedRoute) { }
 
   ngOnInit() { 
+
+    this.route.params.subscribe(
+      (params:Params)=>{        
+        if(params['id']!=null){
+          this.consultationFlag=true;
+          this.getDemandeById(params['id']);
+        }
+      }
+    )
+
+
     this.getAllFichiersByIdUser(this.DemandeCreditService?.DemandeData?.ncin.toString());
+  }
+
+  getDemandeById(id:number){
+    this.DemandeCreditService.getDemandeById(id).subscribe(
+      (response:any)=>{
+        this.getAllFichiersByIdUser(this.DemandeCreditService?.DemandeData?.ncin.toString());
+      }
+    )
   }
 
   getAllFichiersByIdUser(id:String){
@@ -115,7 +140,6 @@ export class DocumentsStepComponent implements OnInit {
 
     const document = this.typesDocuments.find(item => item.label === natureDocument);
     const nature = document?.value || '';
-    console.log(nature);
 
     for (const file of event.files) {
       this.fichierService.upload(file,this.DemandeCreditService?.DemandeData?.ncin.toString(),nature).subscribe(
@@ -139,18 +163,30 @@ export class DocumentsStepComponent implements OnInit {
 
   }
 
+  backToAdmin(){
+    this.router.navigate(['main/admin']);
+    this.DemandeCreditService.InitiliazeDemandeData();
+  }
  
   nextPage() {
-    // I need to check that all documents which have obligation true have also status uploaded true
-    if(this.areAllRequiredDocsUploaded(this.tableToItereate,this.fileUploadStatus)){
-      this.router.navigate(['main/client/observation']);
+
+    if(this.consultationFlag){
+      this.router.navigate(['main/client/observation',this.DemandeCreditService.DemandeData.numDemande])
     }else{
-      this.validationFlag=true;
+
+      if(this.areAllRequiredDocsUploaded(this.tableToItereate,this.fileUploadStatus)){
+        this.router.navigate(['main/client/observation']);
+      }else{
+        this.validationFlag=true;
+      }
+
     }
-    
+
   }
 
   prevPage() {
+      this.consultationFlag ? 
+      this.router.navigate(['main/client/garantie',this.DemandeCreditService.DemandeData.numDemande]) : 
       this.router.navigate(['main/client/garantie']);
   }
 }

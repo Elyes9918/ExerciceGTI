@@ -34,27 +34,37 @@ export class DossierCreditStepComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() { 
+    this.typeCredit = GlobalVariables.typeCredit;
+    this.unites = GlobalVariables.unites;
 
     this.route.params.subscribe(
       (params:Params)=>{        
         if(params['id']!=null){
           this.consultationFlag=true;
+          this.getDemandeById(params['id']);
         }
       }
     )
 
-
-    this.typeCredit = GlobalVariables.typeCredit;
-    this.unites = GlobalVariables.unites;
-
     if(this.demandeCreditService.DemandeData.type!=0){
-      this.credit=this.typeCredit.find((item)=>item.value===this.demandeCreditService.DemandeData.type);
-      this.montant=this.demandeCreditService.DemandeData.type.toString();
-      this.unite=this.unites.find((item)=>item.value===this.demandeCreditService.DemandeData.unite);
-      this.nbecheance=this.demandeCreditService.DemandeData.nbreEcheance.toString();
-
+      this.getInformationFormCreditService()
     }
 
+  }
+
+  getDemandeById(id:number){
+    this.demandeCreditService.getDemandeById(id).subscribe(
+      (response:any)=>{
+        this.getInformationFormCreditService()
+      }
+    )
+  }
+
+  getInformationFormCreditService(){
+    this.credit=this.typeCredit.find((item)=>item.value===this.demandeCreditService.DemandeData.type);
+    this.montant=this.demandeCreditService.DemandeData.montant.toString();
+    this.unite=this.unites.find((item)=>item.value===this.demandeCreditService.DemandeData.unite);
+    this.nbecheance=this.demandeCreditService.DemandeData.nbreEcheance.toString();
   }
 
   setCreditType(event : any) {
@@ -93,23 +103,35 @@ export class DossierCreditStepComponent implements OnInit {
     this.filteredUnites = filtered;
   }
 
+  backToAdmin(){
+    this.router.navigate(['main/admin']);
+    this.demandeCreditService.InitiliazeDemandeData();
+  }
+
   nextPage() {
-    if(this.credit!=undefined && this.montant!=undefined && this.unite!=undefined && this.nbecheance!=undefined){
-      this.router.navigate(['main/client/garantie']);
-      this.demandeCreditService.DemandeData.type=this.credit.value;
-      this.demandeCreditService.DemandeData.montant=Number(this.montant);
-      this.demandeCreditService.DemandeData.unite=this.unite.value;
-      this.demandeCreditService.DemandeData.nbreEcheance=Number(this.nbecheance);
+
+    if(this.consultationFlag){
+      this.router.navigate(['main/client/garantie',this.demandeCreditService.DemandeData.numDemande])
     }else{
-      this.credit===undefined ? this.creditFlag = true : this.creditFlag = false
-      this.montant===undefined? this.montantFlag = true : this.montantFlag = false
-      this.unite===undefined? this.uniteFlag = true : this.uniteFlag = false
-      this.nbecheance===undefined ?this.nbecheanceFlag = true : this.nbecheanceFlag = false
+
+      if(this.credit!=undefined && this.montant!=undefined && this.unite!=undefined && this.nbecheance!=undefined){
+        this.router.navigate(['main/client/garantie']);
+        this.demandeCreditService.DemandeData.type=this.credit.value;
+        this.demandeCreditService.DemandeData.montant=Number(this.montant);
+        this.demandeCreditService.DemandeData.unite=this.unite.value;
+        this.demandeCreditService.DemandeData.nbreEcheance=Number(this.nbecheance);
+      }else{
+        this.credit===undefined ? this.creditFlag = true : this.creditFlag = false
+        this.montant===undefined? this.montantFlag = true : this.montantFlag = false
+        this.unite===undefined? this.uniteFlag = true : this.uniteFlag = false
+        this.nbecheance===undefined ?this.nbecheanceFlag = true : this.nbecheanceFlag = false
+      }
+
     }
   }
 
   prevPage() {
-      this.router.navigate(['main/client/info']);
+    this.consultationFlag ? this.router.navigate(['main/client/info',this.demandeCreditService.DemandeData.numDemande]) : this.router.navigate(['main/client/info']);
   }
 }
 

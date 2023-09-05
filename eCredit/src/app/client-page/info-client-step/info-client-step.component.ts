@@ -53,11 +53,12 @@ export class InfoClientStepComponent implements OnInit {
       }
     )
 
-    if(this.DemandeCreditService.DemandeData.ncin!=0 && this.DemandeCreditService.DemandeData.ncompte){
+    if(this.DemandeCreditService.DemandeData.ncin!=0 && this.DemandeCreditService.DemandeData.ncompte && !this.consultationFlag){
       this.backFlag=true;
       this.getUserById(this.DemandeCreditService.DemandeData.ncin);
       this.getAllComptesByIdUser(this.DemandeCreditService.DemandeData.ncin)
     }
+    
   }
 
   populateFields(){
@@ -121,40 +122,34 @@ export class InfoClientStepComponent implements OnInit {
   getDemandeById(id:number){
     this.DemandeCreditService.getDemandeById(id).subscribe(
       (response:any)=>{
-        console.log(response)
-        this.DemandeCreditService.DemandeData.numDemande=response.numDemande;
-        this.DemandeCreditService.DemandeData.ncin=response.idUser;
-        this.DemandeCreditService.DemandeData.type=response.typeCredit;
-        this.DemandeCreditService.DemandeData.unite=response.unite;
-        this.DemandeCreditService.DemandeData.montant=response.montant;
-        this.DemandeCreditService.DemandeData.nbreEcheance=response.nbrEchance;
-        this.DemandeCreditService.DemandeData.garantieRequests=response.garantieRequests;
-        this.DemandeCreditService.DemandeData.ncompte=response.idcompte;
-        this.DemandeCreditService.DemandeData.observation=response.observation;
-
-        console.log(this.DemandeCreditService.DemandeData);
+        this.getUserById(response.idUser);
+        this.getAllComptesByIdUser(response.idUser)
       }
     )
+  }
+
+  backToAdmin(){
+    this.router.navigate(['main/admin']);
+    this.DemandeCreditService.InitiliazeDemandeData();
   }
 
   nextPage() {
 
     if(this.consultationFlag){
       this.router.navigate(['main/client/dossier',this.DemandeCreditService.DemandeData.numDemande])
-    }
-    if(this.nom!=null && this.ncin.toString().length===8){
-      this.router.navigate(['main/client/dossier']);
-      this.DemandeCreditService.DemandeData.ncin=this.ncin;
-      this.DemandeCreditService.DemandeData.ncompte= Number.isNaN(Number(this.ncompte)) ?
-      Number(this.comptes[0].ncompte) : Number(this.ncompte);  
     }else{
-      this.ncin.toString().length!=8 ? this.ncinField8digitsFlag=true : this.ncinField8digitsFlag=false;
-      if(this.nom==null){
-        this.ncinIncorrectFlag=true;
+      if(this.nom!=null && this.ncin.toString().length===8){
+        this.router.navigate(['main/client/dossier']);
+        this.DemandeCreditService.DemandeData.ncin=this.ncin;
+        this.DemandeCreditService.DemandeData.ncompte= Number.isNaN(Number(this.ncompte)) ?
+        Number(this.comptes[0].ncompte) : Number(this.ncompte);  
+      }else{
+        this.ncin.toString().length!=8 ? this.ncinField8digitsFlag=true : this.ncinField8digitsFlag=false;
+        if(this.nom==null){
+          this.ncinIncorrectFlag=true;
+        }
       }
     }
-
-
   }
 
 }

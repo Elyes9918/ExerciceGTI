@@ -15,6 +15,11 @@ export class DemandeService {
 
   constructor(private http:HttpClient) {
 
+   this.InitiliazeDemandeData();
+
+   }
+
+   InitiliazeDemandeData(){
     this.DemandeData = {
       numDemande:0,
       ncin: 0, // Initialize with default values or appropriate values
@@ -26,8 +31,6 @@ export class DemandeService {
       observation: "",
       garantieRequests: [],
     };
-
-
    }
 
   
@@ -45,8 +48,22 @@ export class DemandeService {
 
   getDemandeById(id:number){
     return this.http.get(`${this.apiUrl}/demandeCredit/${id}`).pipe(
-      
-    )
+      map((response: any) => {
+        this.DemandeData = {
+          numDemande: response.numDemande,
+          ncin: response.idUser,
+          type: response.typeCredit,
+          unite: response.unite,
+          montant: response.montant,
+          nbreEcheance: response.nbrEchance,
+          ncompte: response.idcompte,
+          observation: response.observation,
+          garantieRequests: response.garantieRequests
+        };
+        return response;
+      })
+    );
+    
   }
 
 

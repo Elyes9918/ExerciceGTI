@@ -4,7 +4,8 @@
             Demande de crédit
         </ng-template>
         <ng-template pTemplate="subtitle">
-            Entrez vos informations
+          <ng-container *ngIf="!consultationFlag">Entrez vos informations</ng-container>
+          <ng-container *ngIf="consultationFlag">Consultation</ng-container>
         </ng-template>
         <ng-template pTemplate="content">
             <div class="p-fluid formgrid grid">
@@ -59,11 +60,11 @@
                       </form>
                       <div style="margin-top: 20px;">
                         <div style="margin-top: 20px; display: flex; flex-wrap: nowrap;">
-                            <button   pButton pRipple (click)="onAdd()" style="width: 8.9rem; margin-right: 10px;">Add New Row</button>
+                            <button   pButton pRipple (click)="onAdd()" style="width: 8.9rem; margin-right: 10px;" [disabled]="consultationFlag">Add New Row</button>
 
-                            <button pButton pRipple [disabled]="garantiesDetails.controls.length === 1" (click)="onDelete()" style="width: 12rem; margin-right: 10px;">Delete Selected Row</button>
+                            <button pButton pRipple [disabled]="(garantiesDetails.controls.length === 1) ||  consultationFlag" (click)="onDelete()" style="width: 12rem; margin-right: 10px;">Delete Selected Row</button>
 
-                            <button pButton pRipple [disabled]="userForm.invalid" (click)="onSubmit()" style="width: 6.25rem">Submit</button>
+                            <button pButton pRipple [disabled]="userForm.invalid ||  consultationFlag" (click)="onSubmit()" style="width: 6.25rem">Submit</button>
                         </div>
                       </div>
                     </div>
@@ -76,7 +77,10 @@
         <ng-template pTemplate="footer">
             <div class="grid grid-nogutter justify-content-end">
                 <p-button label="Back" (onClick)="prevPage()" icon="pi pi-angle-left" [style]="{ 'margin-right': '30px' }"></p-button>
-                <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right" [disabled]="!(areGarantiesSubmited && ValidationFlag===false)"></p-button>
+                <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right" [disabled]="!((areGarantiesSubmited && ValidationFlag===false)|| consultationFlag)"></p-button>
+                <ng-container *ngIf="consultationFlag" >
+                  <p-button label="Admin Panel" (onClick)="backToAdmin()" icon="pi pi-angle" iconPos="right" [style]="{ 'margin-left': '30px' }" ></p-button>
+                </ng-container>
             </div>
         </ng-template>
     </p-card>

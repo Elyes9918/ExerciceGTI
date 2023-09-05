@@ -24,6 +24,7 @@ const routes: Routes = [
           {path:'documents',component:DocumentsStepComponent},
           {path:'observation',component:ObservationStepComponent},
           {path:'confirmation',component:ConfirmationStepComponent},
+          
           {path:'info/:id',component:InfoClientStepComponent},
           {path:'dossier/:id',component:DossierCreditStepComponent},
           {path:'garantie/:id',component:GarantiesPorposeStepComponent},

@@ -60,8 +60,12 @@
         </ng-template>
         <ng-template pTemplate="footer">
             <div class="grid grid-nogutter justify-content-end">
-                <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
+                <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right" ></p-button>
+                <ng-container *ngIf="consultationFlag" >
+                    <p-button label="Admin Panel" (onClick)="backToAdmin()" icon="pi pi-angle" iconPos="right" [style]="{ 'margin-left': '30px' }" ></p-button>
+                </ng-container>
             </div>
+            
         </ng-template>
     </p-card>
 </div>

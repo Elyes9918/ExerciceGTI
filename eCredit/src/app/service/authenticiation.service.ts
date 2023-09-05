@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { ApiResponse } from '../interfaces/ApiResponse';
+import { DemandeService } from './demande.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthenticiationService {
 
   private apiUrl = '/api/v1';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private demandeCreditService:DemandeService) { }
 
   authenticate(ncin: number, password: string): Observable<ApiResponse> {
     const headers = new HttpHeaders({
@@ -40,6 +41,7 @@ export class AuthenticiationService {
   }
 
   logout(){
+    this.demandeCreditService.InitiliazeDemandeData();
     sessionStorage.removeItem('ncin');
   }
 
