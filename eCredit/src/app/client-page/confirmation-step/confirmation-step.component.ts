@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { DemandeService } from 'src/app/service/demande.service';
 
 @Component({
@@ -11,10 +11,32 @@ import { DemandeService } from 'src/app/service/demande.service';
 export class ConfirmationStepComponent implements OnInit {
 
   formSent:boolean=false;
+  items: MenuItem[] = [];
+
 
   constructor( private router: Router,private DemandeCreditService:DemandeService,private messageService:MessageService) { }
 
   ngOnInit() { 
+    this.items = [
+      { label: 'Version Français',
+       icon: 'pi pi-fw pi-file-pdf' ,
+        command: () => {
+        this. downloadVersionFr();}},
+      { separator: true },
+      { label: 'Version Anglais',
+       icon: 'pi pi-fw pi-file-pdf',
+       command: () => {
+        this.downloadVersionEn();} }
+    ];
+  }
+
+  downloadVersionFr(){
+    console.log("FR")
+  }
+
+  downloadVersionEn(){
+    console.log("US")
+
   }
 
   submit(){

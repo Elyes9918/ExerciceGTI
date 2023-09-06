@@ -4,24 +4,26 @@ import com.GTI.ExerciceGTI.IService.IDemandeCreditService;
 import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditResponse;
 import com.GTI.ExerciceGTI.dataTransferObjects.GarantieRequest;
 import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditRequest;
-import com.GTI.ExerciceGTI.model.DemandeCredit;
-import com.GTI.ExerciceGTI.model.Utilisateur;
+import com.GTI.ExerciceGTI.model.*;
+import com.GTI.ExerciceGTI.repos.CompteRepository;
 import com.GTI.ExerciceGTI.repos.DemandeCreditRepository;
+import com.GTI.ExerciceGTI.repos.EcheanceRepository;
 import com.GTI.ExerciceGTI.repos.UtilisateurRepository;
 import lombok.AllArgsConstructor;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -29,7 +31,10 @@ public class DemandeCreditService implements IDemandeCreditService {
 
     private final DemandeCreditRepository demandeCreditRepository;
     private final UtilisateurRepository utilisateurRepository;
+    private final EcheanceRepository echeanceRepository;
+    private final CompteRepository compteRepository;
     private  GarantieService garantieService;
+
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -50,6 +55,53 @@ public class DemandeCreditService implements IDemandeCreditService {
         simpleJdbcCall.execute(in);
     }
 
+    public void downloadRapportPDF(Integer idDemande, Integer version) throws JRException {
+        try {
+            // Load the JasperReports template from the classpath
+            String templatePath="C:\\Users\\BOUALLEGUE.Elyes\\Desktop\\Exercice\\App\\ExerciceGTI\\src\\main\\resources\\templates\\echeanceReport.jrxml";
+            JasperReport jasperReport = JasperCompileManager.compileReport(templatePath);
+
+            List<Echeance> echeances = new ArrayList<Echeance>();
+            echeances= echeanceRepository.findAllEcheanceByIdDemande(idDemande);
+            Optional<DemandeCredit> demandeCredit = demandeCreditRepository.findById(idDemande);
+            DemandeCredit dC=demandeCredit.get();
+            Optional<Compte> compte = compteRepository.findById(dC.getNcompte());
+
+
+            // Create a JasperPrint object by filling the report with data
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("nom", dC.getUtilisateur().getNom());
+            parameters.put("prenom", dC.getUtilisateur().getPrenom());
+            parameters.put("nCompte", dC.getNcompte().toString());
+            //TypeCrédit PERSONELLES AUTOMOBILE TRAVAUX
+            int type = dC.getType();
+            String typeCredit = (type == 1) ? "Personnel" : (type == 2) ? "Automobile" : "Travaux";
+            parameters.put("typeCredit", typeCredit);
+            parameters.put("montantTotale",
+                    (dC.getMontant()+(dC.getMontant()*dC.getTaux()))+" ");
+            //devise TND EUR USD
+            int devise = dC.getType();
+            String devisee = (type == 1) ? "TND" : (type == 2) ? "USD" : "EUR";
+            parameters.put("devise", devisee);
+            parameters.put("taux", dC.getTaux()+"");
+            //Mensuelle Trimistrielle Semestrielle
+            int unite = dC.getUnite();
+            String unitee = (type == 1) ? "Mensuelle" : (type == 2) ? "Trimistrielle" : "Semestrielle";
+            parameters.put("unite", unitee);
+            parameters.put("nbreEcheance", dC.getNbreEcheance().toString());
+            parameters.put("numDemande", dC.getNDemande());
+            parameters.put("tableDataSet", new JRBeanCollectionDataSource(echeances));
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+
+            // Export the JasperPrint to a PDF file
+            String filePath = "C:/Users/BOUALLEGUE.Elyes/Desktop/rapports/rapport.pdf";
+            JasperExportManager.exportReportToPdfFile(jasperPrint, filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle exceptions if needed
+        }
+    }
 
     public DemandeCreditResponse getDemandeCredit(Integer id) {
         Optional<DemandeCredit> demandeCredit = demandeCreditRepository.findById(id);

@@ -43,6 +43,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { MenuModule } from 'primeng/menu';
+
 
 
 
@@ -91,7 +94,10 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     InputNumberModule,
     FileUploadModule,
     AutoCompleteModule,
-    InputTextareaModule
+    InputTextareaModule,
+    SplitButtonModule,
+    MenuModule
+    
 
     
   ],
