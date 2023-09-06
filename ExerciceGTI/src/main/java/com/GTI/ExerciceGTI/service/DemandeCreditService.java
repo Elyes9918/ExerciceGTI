@@ -9,11 +9,17 @@ import com.GTI.ExerciceGTI.model.Utilisateur;
 import com.GTI.ExerciceGTI.repos.DemandeCreditRepository;
 import com.GTI.ExerciceGTI.repos.UtilisateurRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +30,25 @@ public class DemandeCreditService implements IDemandeCreditService {
     private final DemandeCreditRepository demandeCreditRepository;
     private final UtilisateurRepository utilisateurRepository;
     private  GarantieService garantieService;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    public void callEcheanceProcedure(int montant, double taux, int nbEcheance, int unite, String dateDemande, int nDemande) {
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("FORMATION")
+                .withProcedureName("EcheanceProcedure");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("p_montant", montant)
+                .addValue("p_taux", taux)
+                .addValue("p_nb_echeance", nbEcheance)
+                .addValue("p_unite", unite)
+                .addValue("p_date_demande", dateDemande)
+                .addValue("p_n_demande", nDemande);
+
+        simpleJdbcCall.execute(in);
+    }
 
 
     public DemandeCreditResponse getDemandeCredit(Integer id) {
@@ -45,8 +70,6 @@ public class DemandeCreditService implements IDemandeCreditService {
                     .build();
 
         return demandeCreditResponse;
-
-
     }
 
     public void AjouterDemandeCredit(DemandeCreditRequest request){
@@ -74,8 +97,14 @@ public class DemandeCreditService implements IDemandeCreditService {
             garantieService.addGarantie(garantieRequest,demandeCredit);
         }
 
-
-
+        this.callEcheanceProcedure(
+                demandeCredit.getMontant(),
+                demandeCredit.getTaux(),
+                demandeCredit.getNbreEcheance(),
+                demandeCredit.getUnite(),
+                demandeCredit.getDateDemande(),
+                demandeCredit.getNDemande()
+        );
     }
 
 

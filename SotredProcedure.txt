@@ -1,0 +1,36 @@
+CREATE OR REPLACE PROCEDURE EcheanceProcedure(
+    p_montant IN NUMBER,
+    p_taux IN NUMBER,
+    p_nb_echeance IN NUMBER,
+    p_unite IN NUMBER,
+    p_date_demande IN VARCHAR,
+    p_n_demande IN NUMBER
+)
+AS
+  -- Local variables
+  montantRembourser NUMBER;
+  montantEcheance NUMBER;
+  echeanceDate DATE;
+  uniteMultiplier NUMBER;
+BEGIN
+  montantRembourser := p_montant + (p_montant * p_taux);
+  montantEcheance := ROUND(montantRembourser / p_nb_echeance, 2);
+  
+  CASE p_unite
+    WHEN 1 THEN uniteMultiplier := 1; 
+    WHEN 2 THEN uniteMultiplier := 3; 
+    WHEN 3 THEN uniteMultiplier := 6; 
+    ELSE uniteMultiplier := 1;
+  END CASE;
+  
+  FOR i IN 1..p_nb_echeance LOOP
+    echeanceDate := ADD_MONTHS(TO_DATE(p_date_demande, 'YYYY-MM-DD HH24:MI:SS'), (i - 1) * uniteMultiplier);
+    
+    
+    -- Insert a record into echeance
+    INSERT INTO echeance (id, date_echeance, numero, status_Paiement, valeur, id_demande_credit)
+    VALUES (echeance_seq.nextval, TO_CHAR(echeanceDate, 'YYYY-MM-DD'), i, 0, montantEcheance, p_n_demande); 
+  END LOOP;
+  
+END EcheanceProcedure;
+

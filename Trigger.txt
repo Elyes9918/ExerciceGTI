@@ -1,0 +1,34 @@
+create or replace trigger EcheanceTrigger
+  after insert
+  on demande_credit 
+  REFERENCING OLD AS OLD NEW AS NEW
+  for each row
+declare
+  -- local variables here
+  
+  montantRembourser NUMBER;
+    montantEcheance NUMBER;
+    echeanceDate DATE;
+    uniteMultiplier NUMBER;
+begin
+  montantRembourser := :NEW.montant + (:NEW.montant * :NEW.taux);
+  montantEcheance := ROUND(MontantRembourser / :NEW.nbre_Echeance, 2);
+  
+  CASE :NEW.unite
+    WHEN 1 THEN UniteMultiplier := 1; 
+    WHEN 2 THEN UniteMultiplier := 3; 
+    WHEN 3 THEN UniteMultiplier := 6; 
+    ELSE UniteMultiplier := 1;
+  END CASE;
+  
+  FOR i IN 1..:NEW.nbre_Echeance LOOP
+
+  EcheanceDate := ADD_MONTHS(TO_DATE(:NEW.date_Demande, 'YYYY-MM-DD HH24:MI:SS'), (i - 1) * UniteMultiplier);
+    
+
+    -- Insert a record into echeance
+    INSERT INTO echeance (id, date_echeance, numero, status_Paiement, valeur, id_demande_credit)
+    VALUES (echeance_seq.nextval, TO_CHAR(EcheanceDate, 'YYYY-MM-DD'), i, 0, MontantEcheance, :NEW.n_Demande); 
+  END LOOP;
+ 
+end EcheanceTrigger;
