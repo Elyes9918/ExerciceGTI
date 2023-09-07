@@ -35,60 +35,102 @@
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ExerciceGTI"/>
 		<parameter name="numDemande" class="java.lang.Integer"/>
 		<queryString>
-			<![CDATA[]]>
+			<![CDATA[SELECT * FROM ECHEANCE
+ where ECHEANCE.ID_DEMANDE_CREDIT =$P{numDemande}]]>
 		</queryString>
-		<field name="id" class="java.lang.Integer">
+		<field name="ID" class="java.math.BigDecimal">
 			<property name="com.jaspersoft.studio.field.name" value="ID"/>
 			<property name="com.jaspersoft.studio.field.label" value="ID"/>
 		</field>
-		<field name="dateEcheance" class="java.lang.String">
+		<field name="DATE_ECHEANCE" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="DATE_ECHEANCE"/>
 			<property name="com.jaspersoft.studio.field.label" value="DATE_ECHEANCE"/>
 		</field>
-		<field name="numero" class="java.lang.Integer">
+		<field name="NUMERO" class="java.math.BigDecimal">
 			<property name="com.jaspersoft.studio.field.name" value="NUMERO"/>
 			<property name="com.jaspersoft.studio.field.label" value="NUMERO"/>
 		</field>
-		<field name="statusPaiement" class="java.lang.Integer">
+		<field name="STATUS_PAIEMENT" class="java.math.BigDecimal">
 			<property name="com.jaspersoft.studio.field.name" value="STATUS_PAIEMENT"/>
 			<property name="com.jaspersoft.studio.field.label" value="STATUS_PAIEMENT"/>
 		</field>
-		<field name="valeur" class="java.lang.Double">
+		<field name="VALEUR" class="java.lang.Double">
 			<property name="com.jaspersoft.studio.field.name" value="VALEUR"/>
 			<property name="com.jaspersoft.studio.field.label" value="VALEUR"/>
 		</field>
+		<field name="ID_DEMANDE_CREDIT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="ID_DEMANDE_CREDIT"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID_DEMANDE_CREDIT"/>
+		</field>
 	</subDataset>
-	<parameter name="nom" class="java.lang.String"/>
-	<parameter name="prenom" class="java.lang.String"/>
-	<parameter name="nCompte" class="java.lang.String"/>
-	<parameter name="typeCredit" class="java.lang.String"/>
-	<parameter name="montantTotale" class="java.lang.String"/>
-	<parameter name="devise" class="java.lang.String"/>
-	<parameter name="taux" class="java.lang.String"/>
-	<parameter name="unite" class="java.lang.String"/>
-	<parameter name="nbreEcheance" class="java.lang.String"/>
 	<parameter name="numDemande" class="java.lang.Integer"/>
-	<parameter name="tableDataSet" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<queryString language="SQL">
-		<![CDATA[Select * FROM ECHEANCE]]>
+		<![CDATA[SELECT
+    DC.N_DEMANDE,
+    DC.TYPE AS DemandeCredit_Type,
+    DC.NCOMPTE AS DemandeCredit_idCompte,
+    DC.ID_UTILISATEUR AS DemandeCredit_idUser,
+    DC.UNITE AS DemandeCredit_unite,
+    DC.MONTANT AS DemandeCredit_montant,
+    DC.TAUX AS DemandeCredit_taux,
+    DC.NBRE_ECHEANCE AS DemandeCredit_nbreEcheance,
+    U.NOM AS User_Nom,
+    U.PRENOM AS User_Prenom,
+    C.N_COMPTE AS Compte_Numero,
+    C.DEVISE AS Compte_Devise
+FROM DEMANDE_CREDIT DC
+INNER JOIN UTILISATEUR U ON DC.ID_UTILISATEUR = U.ID
+INNER JOIN COMPTE C ON DC.NCOMPTE = C.N_COMPTE
+WHERE DC.N_DEMANDE = $P{numDemande}]]>
 	</queryString>
-	<field name="numero" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="NUMERO"/>
-		<property name="com.jaspersoft.studio.field.label" value="NUMERO"/>
+	<field name="N_DEMANDE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="N_DEMANDE"/>
+		<property name="com.jaspersoft.studio.field.label" value="N_DEMANDE"/>
 	</field>
-	<field name="dateEcheance" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="DATE_ECHEANCE"/>
-		<property name="com.jaspersoft.studio.field.label" value="DATE_ECHEANCE"/>
+	<field name="DEMANDECREDIT_TYPE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DEMANDECREDIT_TYPE"/>
+		<property name="com.jaspersoft.studio.field.label" value="DEMANDECREDIT_TYPE"/>
 	</field>
-	<field name="statusPaiement" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="STATUS_PAIEMENT"/>
-		<property name="com.jaspersoft.studio.field.label" value="STATUS_PAIEMENT"/>
+	<field name="DEMANDECREDIT_IDCOMPTE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DEMANDECREDIT_IDCOMPTE"/>
+		<property name="com.jaspersoft.studio.field.label" value="DEMANDECREDIT_IDCOMPTE"/>
 	</field>
-	<field name="valeur" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="VALEUR"/>
-		<property name="com.jaspersoft.studio.field.label" value="VALEUR"/>
+	<field name="DEMANDECREDIT_IDUSER" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DEMANDECREDIT_IDUSER"/>
+		<property name="com.jaspersoft.studio.field.label" value="DEMANDECREDIT_IDUSER"/>
 	</field>
-	<field name="id" class="java.lang.Integer"/>
+	<field name="DEMANDECREDIT_UNITE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DEMANDECREDIT_UNITE"/>
+		<property name="com.jaspersoft.studio.field.label" value="DEMANDECREDIT_UNITE"/>
+	</field>
+	<field name="DEMANDECREDIT_MONTANT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DEMANDECREDIT_MONTANT"/>
+		<property name="com.jaspersoft.studio.field.label" value="DEMANDECREDIT_MONTANT"/>
+	</field>
+	<field name="DEMANDECREDIT_TAUX" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="DEMANDECREDIT_TAUX"/>
+		<property name="com.jaspersoft.studio.field.label" value="DEMANDECREDIT_TAUX"/>
+	</field>
+	<field name="DEMANDECREDIT_NBREECHEANCE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DEMANDECREDIT_NBREECHEANCE"/>
+		<property name="com.jaspersoft.studio.field.label" value="DEMANDECREDIT_NBREECHEANCE"/>
+	</field>
+	<field name="USER_NOM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="USER_NOM"/>
+		<property name="com.jaspersoft.studio.field.label" value="USER_NOM"/>
+	</field>
+	<field name="USER_PRENOM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="USER_PRENOM"/>
+		<property name="com.jaspersoft.studio.field.label" value="USER_PRENOM"/>
+	</field>
+	<field name="COMPTE_NUMERO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="COMPTE_NUMERO"/>
+		<property name="com.jaspersoft.studio.field.label" value="COMPTE_NUMERO"/>
+	</field>
+	<field name="COMPTE_DEVISE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="COMPTE_DEVISE"/>
+		<property name="com.jaspersoft.studio.field.label" value="COMPTE_DEVISE"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -97,7 +139,7 @@
 			<frame>
 				<reportElement x="0" y="0" width="558" height="100" uuid="15905126-ced1-4783-8cdb-6ba764789ab2"/>
 				<line>
-					<reportElement x="0" y="90" width="555" height="1" uuid="cecf69d0-2769-4467-9f16-d32fef64cc42">
+					<reportElement x="5" y="90" width="549" height="1" uuid="cecf69d0-2769-4467-9f16-d32fef64cc42">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					</reportElement>
@@ -110,19 +152,19 @@
 					<reportElement x="500" y="10" width="55" height="57" uuid="9e693723-f3f9-42de-b01d-11618cae37c2"/>
 					<imageExpression><![CDATA["C:/Users/BOUALLEGUE.Elyes/Desktop/pngegg.png"]]></imageExpression>
 				</image>
-				<staticText>
+				<textField>
 					<reportElement x="195" y="10" width="170" height="30" uuid="0cd1180a-65b3-47d0-bfbb-5699fb5a8e8e"/>
 					<textElement textAlignment="Center">
 						<font size="16"/>
 					</textElement>
-					<text><![CDATA[Tableau des échéances]]></text>
-				</staticText>
+					<textFieldExpression><![CDATA[$R{tabEcheance}]]></textFieldExpression>
+				</textField>
 				<frame>
 					<reportElement x="190" y="40" width="200" height="20" uuid="43dd8905-0db2-40f5-81cc-b38eaf193275"/>
-					<staticText>
-						<reportElement x="5" y="1" width="90" height="19" uuid="2c2d041d-39c1-4bc8-a3f5-95f4250b87c6"/>
-						<text><![CDATA[Rapport généré le :]]></text>
-					</staticText>
+					<textField>
+						<reportElement x="0" y="1" width="100" height="19" uuid="2c2d041d-39c1-4bc8-a3f5-95f4250b87c6"/>
+						<textFieldExpression><![CDATA[$R{rapportGenerele}]]></textFieldExpression>
+					</textField>
 					<textField>
 						<reportElement x="95" y="1" width="100" height="19" uuid="ddbcbed9-ae18-4cc8-9dda-0514dd272955"/>
 						<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
@@ -131,151 +173,167 @@
 			</frame>
 		</band>
 	</title>
-	<pageHeader>
-		<band height="105" splitType="Stretch">
-			<rectangle>
-				<reportElement mode="Transparent" x="2" y="11" width="556" height="81" uuid="63aa9146-c14a-426f-ac52-95b4f8076560"/>
-			</rectangle>
-			<textField>
-				<reportElement x="11" y="20" width="100" height="20" uuid="887984ea-554e-4b25-b60b-e976fc37e8b0">
-					<property name="com.jaspersoft.studio.unit.x" value="px"/>
-				</reportElement>
-				<textFieldExpression><![CDATA["Nom : "+$P{nom}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="11" y="43" width="100" height="20" uuid="afb6f8ae-a34a-44da-ae3e-857a3a3287cd"/>
-				<textFieldExpression><![CDATA["Prénom : "+ $P{prenom}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="11" y="67" width="159" height="20" uuid="a21dbfa0-06b2-436a-8a21-866c9304be8f"/>
-				<textFieldExpression><![CDATA["Numéro de compte : "+$P{nCompte}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="220" y="20" width="130" height="20" uuid="0e1170f2-a960-4c6c-a7b8-35092f8fd8ee"/>
-				<textFieldExpression><![CDATA["Type crédit  : "+ $P{typeCredit}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="415" y="23" width="145" height="20" uuid="88776c38-7f9f-4c32-9314-2a23f819425e"/>
-				<textFieldExpression><![CDATA["Nombre d'échéance  : "+ $P{nbreEcheance}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="220" y="43" width="195" height="20" uuid="38ef622e-294f-4333-8852-139f07ec75b4"/>
-				<textFieldExpression><![CDATA["Montant total : "+$P{montantTotale} +" " +$P{devise}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="220" y="63" width="100" height="20" uuid="54d5745f-e04b-40cb-ab52-a2c2035c5afa"/>
-				<textFieldExpression><![CDATA["Taux d'intérêt : "+$P{taux}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="415" y="43" width="100" height="20" uuid="b61b791b-aec0-49e0-abc3-7a38104746a1"/>
-				<textFieldExpression><![CDATA["Unité  :  "+$P{unite}]]></textFieldExpression>
-			</textField>
-		</band>
-	</pageHeader>
 	<detail>
-		<band height="286" splitType="Stretch">
+		<band height="310" splitType="Stretch">
 			<componentElement>
-				<reportElement x="90" y="10" width="449" height="220" uuid="3d19b662-e139-4db9-ac6e-8997986242c8">
+				<reportElement x="80" y="100" width="449" height="199" uuid="3d19b662-e139-4db9-ac6e-8997986242c8">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="TableDataset" uuid="49f8b32c-b64b-4ee2-8182-53f9d4240a41">
+					<datasetRun subDataset="TableDataset" uuid="2aaf0fad-7806-4411-9807-eb48cbc091e2">
 						<datasetParameter name="numDemande">
 							<datasetParameterExpression><![CDATA[$P{numDemande}]]></datasetParameterExpression>
 						</datasetParameter>
-						<dataSourceExpression><![CDATA[$P{tableDataSet}]]></dataSourceExpression>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:columnGroup width="400" uuid="bc026ba5-832b-4ce2-906d-ee45ab12351b">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [4]"/>
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
-							<staticText>
+							<textField>
 								<reportElement x="0" y="0" width="400" height="30" uuid="dbb3bd89-28d2-4067-ac7d-5bc7d7c5aed8">
 									<property name="com.jaspersoft.studio.unit.y" value="px"/>
 								</reportElement>
 								<textElement textAlignment="Center"/>
-								<text><![CDATA[Tableau des échéances ]]></text>
-							</staticText>
+								<textFieldExpression><![CDATA[$R{tabEcheance}]]></textFieldExpression>
+							</textField>
 						</jr:tableHeader>
 						<jr:column width="100" uuid="ea6155e7-4542-4145-87d0-a7b9f80e0dc7">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 							<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
-								<staticText>
+								<textField>
 									<reportElement positionType="Float" x="0" y="0" width="100" height="30" uuid="f7df3ee9-6c4f-4526-8d8d-43a88399dbd4"/>
 									<textElement textAlignment="Center"/>
-									<text><![CDATA[Numéro]]></text>
-								</staticText>
+									<textFieldExpression><![CDATA[$R{numero}]]></textFieldExpression>
+								</textField>
 							</jr:columnHeader>
 							<jr:detailCell style="Table_TD" height="30">
 								<textField>
 									<reportElement x="0" y="0" width="100" height="30" uuid="fd330cef-6c54-4220-b1f1-bf4f15df9597"/>
 									<textElement textAlignment="Center"/>
-									<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{NUMERO}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
 						<jr:column width="100" uuid="fbee96f4-b60a-49c2-a201-4b7afa24f556">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 							<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
-								<staticText>
+								<textField>
 									<reportElement x="0" y="0" width="100" height="30" uuid="3bd90123-3b1b-411e-8f05-26ab132c54b1"/>
 									<textElement textAlignment="Center"/>
-									<text><![CDATA[Date écheance]]></text>
-								</staticText>
+									<textFieldExpression><![CDATA[$R{dateEcheance}]]></textFieldExpression>
+								</textField>
 							</jr:columnHeader>
 							<jr:detailCell style="Table_TD" height="30">
 								<textField>
 									<reportElement x="0" y="0" width="100" height="30" uuid="ad315920-d283-4805-9d12-eeb5594d3461"/>
 									<textElement textAlignment="Center"/>
-									<textFieldExpression><![CDATA[$F{dateEcheance}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{DATE_ECHEANCE}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
 						<jr:column width="100" uuid="fda7855a-c4ab-4cff-8212-333dd8e467b3">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 							<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
-								<staticText>
+								<textField>
 									<reportElement x="0" y="0" width="100" height="30" uuid="269f3082-022d-4f4f-94d1-4b9aa437ac81"/>
 									<textElement textAlignment="Center"/>
-									<text><![CDATA[Valeur]]></text>
-								</staticText>
+									<textFieldExpression><![CDATA[$R{valeur}]]></textFieldExpression>
+								</textField>
 							</jr:columnHeader>
 							<jr:detailCell style="Table_TD" height="30">
 								<textField>
 									<reportElement x="0" y="0" width="100" height="30" uuid="181f2af4-8dda-491d-a80e-a6453d43761d"/>
 									<textElement textAlignment="Center"/>
-									<textFieldExpression><![CDATA[$F{valeur}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{VALEUR}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
 						<jr:column width="100" uuid="62071f2b-0596-4b0f-8b28-44df9e9e453b">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 							<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
-								<staticText>
+								<textField>
 									<reportElement x="0" y="0" width="100" height="30" uuid="63c9ff23-8219-424c-aaa1-08be908bd1ed">
 										<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 									</reportElement>
 									<textElement textAlignment="Center"/>
-									<text><![CDATA[Statut de paiement]]></text>
-								</staticText>
+									<textFieldExpression><![CDATA[$R{statutPaiement}]]></textFieldExpression>
+								</textField>
 							</jr:columnHeader>
 							<jr:detailCell style="Table_TD" height="30">
 								<textField>
 									<reportElement x="0" y="0" width="100" height="30" uuid="c9edf940-f911-47ad-97f6-b49f1c83e63c"/>
 									<textElement textAlignment="Center"/>
-									<textFieldExpression><![CDATA[$F{statusPaiement} == 0 ? "Non réglé " : "Réglé "]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{STATUS_PAIEMENT}.compareTo(BigDecimal.ZERO) == 0 ? $R{nonRegle} : $R{regle}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
 					</jr:columnGroup>
 				</jr:table>
 			</componentElement>
+			<rectangle>
+				<reportElement mode="Transparent" x="6" y="5" width="556" height="81" uuid="63aa9146-c14a-426f-ac52-95b4f8076560"/>
+			</rectangle>
+			<textField>
+				<reportElement x="20" y="13" width="159" height="20" uuid="887984ea-554e-4b25-b60b-e976fc37e8b0">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$R{nom}+$F{USER_NOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="36" width="159" height="20" uuid="afb6f8ae-a34a-44da-ae3e-857a3a3287cd"/>
+				<textFieldExpression><![CDATA[$R{prenom}+ $F{USER_PRENOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="60" width="159" height="20" uuid="a21dbfa0-06b2-436a-8a21-866c9304be8f"/>
+				<textFieldExpression><![CDATA[$R{nCompte}+$F{COMPTE_NUMERO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="13" width="155" height="20" uuid="0e1170f2-a960-4c6c-a7b8-35092f8fd8ee"/>
+				<textFieldExpression><![CDATA[$F{DEMANDECREDIT_TYPE}.compareTo(new BigDecimal(1)) == 0 ? $R{typeCredit}+ $R{personnel} :
+$F{DEMANDECREDIT_TYPE}.compareTo(new BigDecimal(2)) == 0 ? $R{typeCredit}+  $R{automobile} :
+$F{DEMANDECREDIT_TYPE}.compareTo(new BigDecimal(3)) == 0 ? $R{typeCredit}  + $R{travaux} : "Unknown"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="36" width="195" height="20" uuid="38ef622e-294f-4333-8852-139f07ec75b4"/>
+				<textFieldExpression><![CDATA[$R{montantTotal} + ($F{DEMANDECREDIT_MONTANT}.doubleValue() + ($F{DEMANDECREDIT_TAUX}.doubleValue() * $F{DEMANDECREDIT_MONTANT}.doubleValue()))
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="424" y="60" width="100" height="20" uuid="54d5745f-e04b-40cb-ab52-a2c2035c5afa">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$R{tauxInteret}+$F{DEMANDECREDIT_TAUX}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="424" y="36" width="100" height="20" uuid="b61b791b-aec0-49e0-abc3-7a38104746a1"/>
+				<textFieldExpression><![CDATA[$F{DEMANDECREDIT_UNITE}.compareTo(new BigDecimal(1)) == 0 ? $R{unite} + $R{mensuelle} :
+$F{DEMANDECREDIT_UNITE}.compareTo(new BigDecimal(2)) == 0 ? $R{unite} +$R{trimestrielle} :
+$F{DEMANDECREDIT_UNITE}.compareTo(new BigDecimal(3)) == 0 ? $R{unite} + $R{semestrielle} : "Unknown"
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="424" y="13" width="134" height="20" uuid="88776c38-7f9f-4c32-9314-2a23f819425e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$R{nbEcheane}+ $F{DEMANDECREDIT_NBREECHEANCE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="60" width="195" height="20" uuid="672c912a-499e-44f8-86c8-eba318520954">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{COMPTE_DEVISE}.compareTo(new BigDecimal(1)) == 0 ? $R{devise} + "TND" :
+$F{COMPTE_DEVISE}.compareTo(new BigDecimal(2)) == 0 ? $R{devise} + "EUR" :
+$F{COMPTE_DEVISE}.compareTo(new BigDecimal(3)) == 0 ? $R{devise} + "USD" : "Unknown"
+]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="25" splitType="Stretch">
+		<band height="9" splitType="Stretch">
 			<staticText>
 				<reportElement x="13" y="-11" width="544" height="18" forecolor="#3D6881" uuid="b2373c4b-3f0c-4553-8794-cc413c0bf8c6"/>
 				<textElement textAlignment="Center"/>

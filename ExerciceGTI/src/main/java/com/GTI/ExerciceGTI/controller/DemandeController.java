@@ -3,6 +3,7 @@ package com.GTI.ExerciceGTI.controller;
 
 import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditRequest;
 import com.GTI.ExerciceGTI.dataTransferObjects.DemandeCreditResponse;
+import com.GTI.ExerciceGTI.model.DemandeCredit;
 import com.GTI.ExerciceGTI.service.DemandeCreditService;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
@@ -34,15 +35,15 @@ public class DemandeController {
                                                              @PathVariable("version") Integer version) throws JRException {
 
         try {
-            demandeCreditService.downloadRapportPDF(idDemande,version);
+            String fileName = demandeCreditService.downloadRapportPDF(idDemande,version);
 
             // Define the PDF file path
-            String filePath = "C:/Users/BOUALLEGUE.Elyes/Desktop/rapports/rapport.pdf";
+            String filePath = "C:/Users/BOUALLEGUE.Elyes/Desktop/rapports/"+fileName;
 
             // Prepare the response with the PDF file for download
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", "rapport.pdf");
+            headers.setContentDispositionFormData("attachment", fileName);
 
             FileInputStream fileInputStream = new FileInputStream(filePath);
             InputStreamResource inputStreamResource = new InputStreamResource(fileInputStream);
@@ -64,10 +65,9 @@ public class DemandeController {
     }
 
     @PostMapping("/demandeCredit")
-    public ResponseEntity<ApiResponse> AjouterDemandeCredit(@RequestBody DemandeCreditRequest request){
-        demandeCreditService.AjouterDemandeCredit(request);
-        return new ResponseEntity<ApiResponse>(
-                new ApiResponse(true,"Demande credit has been added succesfully"), HttpStatus.CREATED);
+    public ResponseEntity<DemandeCredit> AjouterDemandeCredit(@RequestBody DemandeCreditRequest request){
+       DemandeCredit body = demandeCreditService.AjouterDemandeCredit(request);
+        return new ResponseEntity<>(body,HttpStatus.OK);
     }
     
     @PutMapping("/demandeCredit/{id}")

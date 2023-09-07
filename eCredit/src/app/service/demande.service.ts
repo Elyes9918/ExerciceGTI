@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { DemandeCredit } from '../interfaces/DemandeCredit';
@@ -34,6 +34,37 @@ export class DemandeService {
     };
    }
 
+   download(nDmeande: number,version:number): void {
+    this.http
+      .get(`${this.apiUrl}/demandeCredit/rapport/${nDmeande}/${version}`, {
+        responseType: 'blob', // Set the response type to blob to handle binary data
+        observe: 'response', // Get the full HTTP response including headers
+      })
+      .subscribe((response: HttpResponse<any>) => {
+        const contentDispositionHeader = response.headers.get('Content-Disposition');
+        const matches = contentDispositionHeader
+          ? contentDispositionHeader.match(/filename="?([^"]+)"?/i)
+          : null;
+        const filename = matches && matches.length > 1 ? matches[1] : 'downloaded_file';
+  
+        const contentType = response.headers.get('Content-Type') || undefined;
+  
+        // Create a blob URL to open the file in a new tab
+        const blob = new Blob([response.body], { type: contentType });
+        const blobUrl = window.URL.createObjectURL(blob);
+  
+        // Create an anchor element and trigger a click event to open the file
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        a.click();
+  
+        // Clean up the blob URL
+        window.URL.revokeObjectURL(blobUrl);
+      });
+  }
+
+
   
    saveDemandeCredit(data: DemandeCreditRequest): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -45,7 +76,7 @@ export class DemandeService {
           return throwError(error);
         })
       );
-  }
+    }
 
   getDemandeById(id:number){
     return this.http.get(`${this.apiUrl}/demandeCredit/${id}`).pipe(

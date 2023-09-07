@@ -18,7 +18,7 @@
                 <p-button label="Back" (onClick)="prevPage()" icon="pi pi-angle-left" [style]="{ 'margin-right': '30px' }"></p-button>
                 </ng-container>
 
-                <ng-container *ngIf="!formSent">
+                <ng-container *ngIf="formSent">
                 <p-menu #menu [popup]="true" [model]="items" ></p-menu>
                 <button type="button" pButton icon="pi pi-chevron-down" label="Tableau des échéances" (click)="menu.toggle($event)" style="width:auto" [style]="{ 'margin-right': '30px' }"></button>
                 </ng-container>

@@ -32,16 +32,19 @@ export class ConfirmationStepComponent implements OnInit {
 
   downloadVersionFr(){
     console.log("FR")
+    this.DemandeCreditService.download(this.DemandeCreditService?.DemandeData?.numDemande || -1,1)
   }
 
   downloadVersionEn(){
     console.log("US")
-
+    this.DemandeCreditService.download(this.DemandeCreditService?.DemandeData?.numDemande || -1,2)
   }
 
   submit(){
     this.DemandeCreditService.saveDemandeCredit(this.DemandeCreditService?.DemandeData).subscribe(
       (response:any)=>{
+        console.log(response);
+        this.DemandeCreditService.DemandeData.numDemande=response.ndemande;
         this.messageService.add({
           severity: "success",
           detail: "Demande submited successfully",
