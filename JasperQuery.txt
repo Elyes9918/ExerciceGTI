@@ -1,0 +1,17 @@
+SELECT 
+    DC.N_DEMANDE,
+    DC.TYPE AS DemandeCredit_Type,
+    DC.NCOMPTE AS DemandeCredit_idCompte,
+    DC.ID_UTILISATEUR AS DemandeCredit_idUser,
+    DC.UNITE AS DemandeCredit_unite,
+    DC.MONTANT AS DemandeCredit_montant,
+    DC.TAUX AS DemandeCredit_taux,
+    DC.NBRE_ECHEANCE AS DemandeCredit_nbreEcheance,
+    U.NOM AS User_Nom,
+    U.PRENOM AS User_Prenom,
+    C.N_COMPTE AS Compte_Numero,
+    C.DEVISE AS Compte_Devise
+FROM DEMANDE_CREDIT DC
+INNER JOIN UTILISATEUR U ON DC.ID_UTILISATEUR = U.ID
+INNER JOIN COMPTE C ON DC.NCOMPTE = C.N_COMPTE
+WHERE DC.N_DEMANDE = $P{numDemande}
